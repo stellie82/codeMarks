@@ -1,24 +1,33 @@
+// Required modules
 const express = require("express");
-
 const mongoose = require("mongoose");
+const logger = require("morgan");
 const routes = require("./routes");
+
+// Setup Express app
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Define middleware here
-app.use(express.urlencoded({ extended: true }));
+// Configure middleware
+app.use(logger("dev"));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-// Serve up static assets (usually on heroku)
+// Serve up static assets
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+    app.use(express.static("client/build"));
 }
-// Add routes, both API and view
+
+// Routes
 app.use(routes);
 
-// Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactreadinglist");
+// Mongo DB connection
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/codeMarks";
+mongoose.connect(MONGODB_URI, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 
-// Start the API server
+// Start API server
 app.listen(PORT, function() {
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+    console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
