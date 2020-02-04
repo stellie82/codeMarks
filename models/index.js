@@ -1,3 +1,6 @@
 module.exports = {
-  Book: require("./book")
+  User: require("./user"),
+  Post: require("./post"),
+  Comment: require("./comment"),
+  Tag: require("./tag")
 };
