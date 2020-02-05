@@ -1,6 +1,8 @@
-import React from "react";
-import { Router, Route, Switch } from "react-router";
+import React, { Component } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch } from "react-router";
 import PostDetail from "./components/PostDetail"
+import Hero from "./components/Hero"
 
 class App extends Component {
 
@@ -9,10 +11,10 @@ class App extends Component {
   };
 
   componentDidMount() {
-    checkAuthState();
+    this.checkAuthState();
   }
 
-  function checkAuthState() {
+  checkAuthState() {
     let authFailureString = 'Unauthenticated.';
     let authAbnormalString = 'Unexpected authentication state.';
     let queryString = '/checkAuthState';
@@ -37,14 +39,20 @@ class App extends Component {
       .catch(error => this.setState({ user: false }) );
   }
 
-  function App() {
+  render() {
     return (
       <Router>
-        <span>CODEMARKS</span>
         <Switch>
+          <span>CODEMARKS</span>
+          <span>{JSON.stringify(this.state.user)}</span>
           <Route exact path="/">
-            // TODO: add github login button
+            <Hero user={this.state.user} />
             <span>tag manager, card block</span>
+          </Route>
+          <Route exact path="/login/local">
+            <span>username: [input here]</span> <br/>
+            <span>password: [input here]</span> <br/>
+            <span>password: [input here]</span>
           </Route>
           <Route path="/viewpost">
             <PostDetail />
