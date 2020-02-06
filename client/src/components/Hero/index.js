@@ -1,15 +1,25 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Hero extends Component {
 
   state = {};
+
+  constructor(props) {
+    super(props);
+  }
 
   componentDidMount() {
 
   }
 
   render() {
-    return '';
+    return (
+      <div>
+        {this.props.user ? '' : <Link to="/login/github">Authenticate with GitHub</Link>}
+      </div>
+    );
+    // return 'test';
     // return ({
     //     this.props.user ?
     //     '' : (

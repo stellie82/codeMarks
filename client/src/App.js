@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Route, Switch } from "react-router";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PostDetail from "./components/PostDetail"
 import Hero from "./components/Hero"
 
@@ -12,6 +11,7 @@ class App extends Component {
 
   componentDidMount() {
     this.checkAuthState();
+    // ...
   }
 
   checkAuthState() {
@@ -43,12 +43,12 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <span>CODEMARKS</span>
-          <span>{JSON.stringify(this.state.user)}</span>
-          <Route exact path="/">
-            <Hero user={this.state.user} />
-            <span>tag manager, card block</span>
-          </Route>
+          <Route exact path="/" render={(props) => (
+            <div>
+              <span>codemarks</span>
+              <Hero {...props} />
+            </div>
+          )} />
           <Route exact path="/login/local">
             <span>username: [input here]</span> <br/>
             <span>password: [input here]</span> <br/>

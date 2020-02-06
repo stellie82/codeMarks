@@ -13,6 +13,7 @@ class PostDetail extends Component {
   };
 
   constructor(props) {
+    super(props);
     this.socket = null;
     this.paramsQuery = null;
   }
