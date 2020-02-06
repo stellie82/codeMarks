@@ -49,11 +49,11 @@ class App extends Component {
               <Hero {...props} />
             </div>
           )} />
-          <Route exact path="/login/local">
-            <span>username: [input here]</span> <br/>
-            <span>password: [input here]</span> <br/>
-            <span>password: [input here]</span>
-          </Route>
+          <Route path="/login/local" render={(props) => (
+            <div>
+              <span>login form here</span>
+            </div>
+          )} />
           <Route path="/viewpost">
             <PostDetail />
           </Route>

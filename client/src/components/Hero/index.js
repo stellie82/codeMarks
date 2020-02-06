@@ -16,7 +16,12 @@ class Hero extends Component {
   render() {
     return (
       <div>
-        {this.props.user ? '' : <Link to="/login/github">Authenticate with GitHub</Link>}
+        {this.props.user ? '' :
+        <span>
+          <Link to="/login/github">Authenticate with GitHub</Link>
+          <Link to="/login/local">...or log in with a username and password</Link>
+        </span>
+        }
       </div>
     );
     // return 'test';
