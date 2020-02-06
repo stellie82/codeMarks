@@ -48,6 +48,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
+<<<<<<< HEAD
           <Route
             exact
             path="/"
@@ -90,6 +91,28 @@ class App extends Component {
               </div>
             )}
           />
+=======
+          <Route exact path="/" render={(props) => (
+            <div>
+              <span>codemarks</span>
+              <Hero {...props} />
+            </div>
+          )} />
+          <Route path="/login/local" render={(props) => (
+            <div>
+              <span>login form here</span>
+            </div>
+          )} />
+          <Route path="/viewpost">
+            <PostDetail />
+          </Route>
+          <Route path="/newpost">
+            <span>post composer</span>
+          </Route>
+          <Route path="/profile">
+            <span>user profile</span>
+          </Route>
+>>>>>>> 09f54e2d2903091fa7b6c3234c20fd7477bcce01
         </Switch>
       </Router>
     );
