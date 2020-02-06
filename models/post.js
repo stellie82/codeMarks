@@ -16,13 +16,13 @@ const postSchema = new Schema({
         type: String,
         require: true,
     },
-    comment: [
+    comments: [
         {
             type: Schema.Types.ObjectId,
             ref: "Comment"
         }
     ],
-    tag: [
+    tags: [
         {
             type: Schema.Types.ObjectId,
             ref: "Tag",
