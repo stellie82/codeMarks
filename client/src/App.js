@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Hero from "./components/Hero";
 import PostDetail from "./components/PostDetail";
 import PostComposer from "./components/PostComposer";
@@ -56,11 +56,13 @@ class App extends Component {
             path="/"
             render={props => (
               <div>
-                <span>codemarks</span>
+                <span>CODEMARKS</span>
+                {props.user ? <Link to="/logout">Sign out</Link> : ''}
                 <Hero {...props} />
               </div>
             )}
           />
+
           <Route
             exact
             path="/login/local"
