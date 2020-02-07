@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import PostDetail from "./components/PostDetail";
 import Hero from "./components/Hero";
+import PostDetail from "./components/PostDetail";
+import PostComposer from "./components/PostComposer";
+import UserProfile from "./components/UserProfile";
 
 class App extends Component {
   state = {
@@ -48,7 +50,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-        
+
           <Route
             exact
             path="/"
