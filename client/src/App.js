@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import PostDetail from "./components/PostDetail";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Hero from "./components/Hero";
+import PostDetail from "./components/PostDetail";
+import PostComposer from "./components/PostComposer";
+import UserProfile from "./components/UserProfile";
 
 class App extends Component {
   state = {
@@ -48,17 +50,19 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-        
+
           <Route
             exact
             path="/"
             render={props => (
               <div>
-                <span>codemarks</span>
+                <span>CODEMARKS</span>
+                {props.user ? <Link to="/logout">Sign out</Link> : ''}
                 <Hero {...props} />
               </div>
             )}
           />
+
           <Route
             exact
             path="/login/local"
