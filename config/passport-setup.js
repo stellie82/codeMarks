@@ -24,22 +24,24 @@ passport.use(
     {
       clientID: "e39a0f30f4d88c4f3bec",
       clientSecret: "bbb9f7815eb6527bfa3cc2bd5c85b75b27f645ef",
+
+      //  clientID: process.env.clientID,
+      //   clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "/auth/github/redirect"
     },
     async (token, tokenSecret, profile, done) => {
       // find current user in UserModel
       const currentUser = await User.findOne({
-        'social.github.id': profile.id
+        "social.github.id": profile.id
       });
       // create new user if the database doesn't have this user
       if (!currentUser) {
         const newUser = await new User({
-          'social.github.id':profile.id,
-          'social.github.token': token,
-          'social.github.displayName': profile.displayName,
-          'social.github.username': profile.username,
-          'social.github.photo':profile.photos[0].value        
-          
+          "social.github.id": profile.id,
+          "social.github.token": token,
+          "social.github.displayName": profile.displayName,
+          "social.github.username": profile.username,
+          "social.github.photo": profile.photos[0].value
         }).save();
         if (newUser) {
           done(null, newUser);
