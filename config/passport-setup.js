@@ -25,8 +25,8 @@ passport.use(
       clientID: "e39a0f30f4d88c4f3bec",
       clientSecret: "bbb9f7815eb6527bfa3cc2bd5c85b75b27f645ef",
 
-      //  clientID: process.env.clientID,
-      //   clientSecret: process.env.CLIENT_SECRET,
+      //  clientID: process.env.CLIENT_ID,
+      //clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "/auth/github/redirect"
     },
     async (token, tokenSecret, profile, done) => {
