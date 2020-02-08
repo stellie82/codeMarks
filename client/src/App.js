@@ -111,7 +111,7 @@ class App extends Component {
               // =============================================================
               // <div>
               //   <span>CODEMARKS</span>
-              //   {props.authenticated ? <button onClick={this._handleLogoutClick}>Sign out</button> : <Hero {...props} />}                
+              //   {props.authenticated ? <button onClick={this._handleLogoutClick}>Sign out</button> : <Hero {...props} />}
               // </div>
               <ul>
                 {this.state.authenticated ? (
