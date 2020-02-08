@@ -1,21 +1,26 @@
 const mongoose = require("mongoose");
+// const bcrypt = require("bcrypt-nodejs");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-  name: {
-    type: String,
-    required: true
+var userSchema = new Schema({
+  local: {
+    username: String,
+    email: {
+      type: String,
+      unique: true
+    },
+    password: String
   },
-  language: [
-    {
-      type: String
+  social: {
+    github: {
+      id: String,
+      token: String,
+      displayName: String,
+      username: String,
+      photo: String
     }
-  ],
-  photo: String,
-  date: {
-    type: Date,
-    default: Date.now
-  }
+  },
+
 });
 
 const User = mongoose.model("User", userSchema);
