@@ -24,7 +24,7 @@ passport.use(
   new Strategy(
     {
       // clientID: "e39a0f30f4d88c4f3bec",
-      //   clientSecret: "bbb9f7815eb6527bfa3cc2bd5c85b75b27f645ef",
+      // clientSecret: "bbb9f7815eb6527bfa3cc2bd5c85b75b27f645ef",
 
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
