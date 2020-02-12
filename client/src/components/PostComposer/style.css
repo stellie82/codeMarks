@@ -6,15 +6,60 @@
   display: flex;
   flex-direction: column;
 }
-.compositionBox > * {
-  margin: 0.5em;
+.compositionBox > *:not(:last-child) {
+  margin-bottom: 0.5em;
 }
 .codeBox {
-  flex-grow: 1;
+  /* flex-grow: 1; */
+  min-height: 24rem;
 }
 .compositionBox input,
 .compositionBox textarea {
-  padding: 0.5em;
+  outline: none !important;
+  border: none !important;
+}
+
+.formStyle {
+  position: relative;
+  border-radius: 0.5rem;
+  padding-top: 2.5rem;
+  background: rgbA(10, 10, 10, 1.00);
+  color: white;
+  font-size: 1.2rem;
+  overflow: hidden;
+  min-height: 2em;
+}
+
+.formStyle:before {
+  position: absolute;
+  left: 1rem;
+  top: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: 'Quicksand';
+  letter-spacing: 0.1em;
+  font-size: 0.8em;
+}
+
+.formStyleInput {
+  color: white;
+  font-size: 1.2em;
+  padding: 1rem;
+}
+
+.formStyle.postAuthorName:before { content: 'Author'; }
+.formStyle.postTitleBox:before { content: 'Title'; }
+.formStyle.descriptionBox:before { content: 'Description'; }
+.formStyle.codeBox:before { content: 'Source Code'; }
+
+.publishPost:before { content: '✔️'; }
+.cancelPost:before { content: '❌'; }
+
+.compositionBox input,
+.compositionBox textarea {
+  background: none;
+  resize: none;
+  width: 100%;
 }
 
 .compositionBox input,
@@ -24,4 +69,8 @@
 
 .compositionBox textarea.codeBox {
   font-family: 'Source Code Pro';
+}
+
+.submitActions {
+  margin-top: 1rem;
 }

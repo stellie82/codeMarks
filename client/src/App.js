@@ -106,9 +106,9 @@ class App extends Component {
             path="/"
             render={props => (
               <div className="container">
-                <Header user={this.state.user} />
+                <Header authenticated={this.state.authenticated} user={this.state.user} />
                 <div className="pageContent">
-                  { this.state.user.social ? '' : <Hero user={this.state.user} /> }
+                  { this.state.authenticated ? '' : <Hero user={this.state.user} /> }
                   <div className="cardBlock">
                     <PreviewCard />
                     <PreviewCard />
@@ -141,7 +141,7 @@ class App extends Component {
             path="/newpost"
             render={props => (
               <div className="container">
-                <Header user={this.state.user} suppressCreateCodemark="false" />
+                <Header authenticated={this.state.authenticated} user={this.state.user} />
                 <div className="pageContent">
                   { this.state.user.social ? '' : <Hero user={this.state.user} /> }
                   <PostComposer user={this.state.user} />
