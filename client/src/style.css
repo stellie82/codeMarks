@@ -22,7 +22,6 @@ body {
 }
 
 .pageContent {
-  /* outline: 2px solid cyan; */
   display: flex;
   flex-direction: column;
   margin-left: 18em;

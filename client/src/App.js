@@ -11,18 +11,20 @@ import "./style.css";
 class App extends Component {
 
   state = {
-    user: false
+    user: false,
+    authenticated: false,
+    postPreviewData: []
   };
 
-  state = {
-    user: {},
-    authenticated: false
-  };
-
-  // componentDidMount() {
-  //   this.checkAuthState();
-  //   // ...
-  // }
+  handleViewPopularPosts = () => {
+    fetch("http://localhost:3001/api/posts", {
+      method: "GET",
+      credentials: "include",
+      headers: { Accept: "application/json", "Content-Type": "application/json", "Access-Control-Allow-Credentials": true }
+    }).then(response => {
+      return response.json();
+    }).then(data => this.setState({ postPreviewData: data }));
+  }
 
   componentDidMount() {
     fetch("http://localhost:3001/auth/checkAuth", {
@@ -35,25 +37,16 @@ class App extends Component {
       }
     })
       .then(response => {
-        if (response.status === 200) {
-          console.log("response", response);
-          return response.json();
-        }
+        if (response.status === 200) { return response.json(); }
         throw new Error("failed to authenticate user");
       })
       .then(responseJson => {
-        this.setState({
-          authenticated: true,
-          user: responseJson.user
-        });
-
+        this.setState({ authenticated: true, user: responseJson.user });
       })
       .catch(error => {
-        this.setState({
-          authenticated: false,
-          error: "Failed to authenticate user"
-        });
-      });
+        this.setState({ authenticated: false, error: "Failed to authenticate user" });
+      })
+      .finally(this.handleViewPopularPosts());
   }
 
   checkAuthState() {
@@ -87,6 +80,10 @@ class App extends Component {
       .catch(error => this.setState({user: false}));
   }
 
+  renderPreviewCards() {
+    return this.state.postPreviewData.map((postPreview) => <PreviewCard previewData={postPreview} />);
+  }
+
   _handleLogoutClick = () => {
     window.open("http://localhost:3001/auth/logout", "_self");
     //this.props.handleNotAuthenticated();
@@ -106,16 +103,14 @@ class App extends Component {
             path="/"
             render={props => (
               <div className="container">
-                <Header authenticated={this.state.authenticated} user={this.state.user} />
+                <Header authenticated={this.state.authenticated}
+                        user={this.state.user}
+                        handleViewPopularPosts={this.handleViewPopularPosts}
+                        />
                 <div className="pageContent">
                   { this.state.authenticated ? '' : <Hero user={this.state.user} /> }
                   <div className="cardBlock">
-                    <PreviewCard />
-                    <PreviewCard />
-                    <PreviewCard />
-                    <PreviewCard />
-                    <PreviewCard />
-                    <PreviewCard />
+                    {this.renderPreviewCards()}
                   </div>
                 </div>
               </div>

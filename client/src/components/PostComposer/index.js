@@ -29,9 +29,26 @@ class PostComposer extends Component {
       author: this.props.user._id,
       title: this.state.title,
       description: this.state.description,
-      content: this.state.content
+      content: btoa(this.state.content)
     }
+    console.clear();
     console.log(postData);
+    let queryString = "http://localhost:3001/api/posts";
+    let queryOptions = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+        "Access-Control-Allow-Origin": "localhost:3001"
+      },
+      body: postData
+    };
+    fetch(queryString, queryOptions)
+      .then(response => {
+        console.log(response);
+      })
     // TODO: call "publishPost" express route here, then using the returned postKey, call:
     // this.props.history.push('/viewpost?key=KEY_HERE')
   }

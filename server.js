@@ -1,13 +1,13 @@
 // Required modules
 const express = require("express");
 const mongoose = require("mongoose");
-const routes = require("./routes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const passportSetup = require("./config/passport-setup");
 const session = require("express-session");
+const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
 
 // Setup Express app
