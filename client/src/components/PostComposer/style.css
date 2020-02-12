@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bebas+Neue|Quicksand:300,400,500,600,700|Rubik:300,400,500,700&display=swap');
+
+.compositionBox {
+  display: flex;
+  flex-direction: column;
+}
+.compositionBox > * {
+  margin: 0.5em;
+}
+.codeBox {
+  flex-grow: 1;
+}
+.compositionBox input,
+.compositionBox textarea {
+  padding: 0.5em;
+}
+
+.compositionBox input,
+.compositionBox textarea.descriptionBox {
+  font-family: 'Source Sans Pro';
+}
+
+.compositionBox textarea.codeBox {
+  font-family: 'Source Code Pro';
+}

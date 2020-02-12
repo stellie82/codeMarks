@@ -1,21 +1,13 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
+import "./style.css";
 
 class PostComposer extends Component {
 
-  state = {
-    postDetails: {},
-    postComments: [],
-    postHasLoaded: false,
-    commentsAreRealtime: false,
-    userHighlightStart: -1,
-    userHighlightEnd: -1
-  };
+  state = { };
 
   constructor(props) {
     super(props);
-    this.socket = null;
-    this.paramsQuery = null;
   }
 
   componentDidMount() {
@@ -29,16 +21,12 @@ class PostComposer extends Component {
 
   render() {
     return (
-      <div>
-        {this.state.postKey} <br/>
-        {'Date: ' + this.state.postDetails.date} <br/>
-        {'Author: ' + this.state.postDetails.author} <br/>
-        {'Title: ' + this.state.postDetails.title} <br/>
-        {'Description: ' + this.state.postDetails.description} <br/>
-        {'Votes: ' + this.state.postDetails.votes} <br/>
-        {'Content: ' + this.state.postDetails.content} <br/>
-        // TODO: render the code container on the left, with title-desc-author above
-        // TODO: render the comments on the right, with realtime status above and text input for new comments below
+      <div className="compositionBox">
+        Author: <span className="postAutherName">{this.props.user.social ? this.props.user.social.github.username : ''}</span>
+        Title: <input type="text" name="postDescriptionInput"></input>
+        Description: <textarea id="descriptionBox" name="descriptionBox" className="descriptionBox"></textarea>
+        Content: <textarea id="codeBox" name="codeBox" className="codeBox"></textarea>
+        <input type="submit" value="Publish" />
       </div>
     );
   }
