@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bebas+Neue|Quicksand:300,400,500,600,700|Rubik:300,400,500,700&display=swap');
+
+body {
+  background-image: radial-gradient(at top left, rgbA(20, 20, 40, 1.00), rgbA(40, 50, 60, 1.00));
+  padding: 0em 0em;
+  margin: 0em;
+}
+
+#root {
+  color: white;
+  font-family: 'Source Sans Pro';
+  min-height: 100vh;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageContent {
+  display: flex;
+  flex-direction: column;
+  margin-left: 16rem;
+  flex: 1;
+}
+
+.pageContent > div {
+  flex: 1;
+}
+
+.cardBlock {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+}

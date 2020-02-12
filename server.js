@@ -22,7 +22,6 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-
 const COOKIE_KEY = "codemarks";
 app.use(
   cookieSession({
