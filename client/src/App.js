@@ -1,11 +1,15 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
+import Header from "./components/Header";
 import Hero from "./components/Hero";
 import PostDetail from "./components/PostDetail";
 import PostComposer from "./components/PostComposer";
 import UserProfile from "./components/UserProfile";
+import PreviewCard from "./components/PreviewCard";
+import "./style.css";
 
 class App extends Component {
+
   state = {
     user: false
   };
@@ -21,7 +25,6 @@ class App extends Component {
   // }
 
   componentDidMount() {
-    // Fetch does not send cookies. So you should add credentials: 'include'
     fetch("http://localhost:3001/auth/checkAuth", {
       method: "GET",
       credentials: "include",
@@ -102,24 +105,20 @@ class App extends Component {
             exact
             path="/"
             render={props => (
-              // Patrick's code ==============================================
-              // <div>
-              //   <span>CODEMARKS</span>
-              //   {props.user ? <Link to="/logout">Sign out</Link> : ''}
-              //   <Hero {...props} />
-              // </div>
-              // =============================================================
-              // <div>
-              //   <span>CODEMARKS</span>
-              //   {props.authenticated ? <button onClick={this._handleLogoutClick}>Sign out</button> : <Hero {...props} />}                
-              // </div>
-              <ul>
-                {this.state.authenticated ? (
-                  <li onClick={this._handleLogoutClick}>User succesfully logged ! Want to Logout</li>
-                ) : (
-                    <li onClick={this._handleSignInClick}>LoginWithGitHubb</li>
-                  )}
-              </ul>
+              <div className="container">
+                <Header user={this.state.user} />
+                <div className="pageContent">
+                  { this.state.user.social ? '' : <Hero user={this.state.user} /> }
+                  <div className="cardBlock">
+                    <PreviewCard />
+                    <PreviewCard />
+                    <PreviewCard />
+                    <PreviewCard />
+                    <PreviewCard />
+                    <PreviewCard />
+                  </div>
+                </div>
+              </div>
             )}
           />
 
@@ -141,8 +140,12 @@ class App extends Component {
           <Route
             path="/newpost"
             render={props => (
-              <div>
-                <PostComposer {...props} />
+              <div className="container">
+                <Header user={this.state.user} suppressCreateCodemark="false" />
+                <div className="pageContent">
+                  { this.state.user.social ? '' : <Hero user={this.state.user} /> }
+                  <PostComposer user={this.state.user} />
+                </div>
               </div>
             )}
           />
