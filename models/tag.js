@@ -11,6 +11,7 @@ const tagSchema = new Schema({
             type: String
         }
     ],
+    popularity: Number,
     date: {
         type: Date,
         default: Date.now
