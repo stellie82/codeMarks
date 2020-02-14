@@ -25,6 +25,9 @@ router.get("/login/failed", (req, res) => {
 // When logout, redirect to client
 router.get("/logout", (req, res) => {
   req.logout();
+  req.session = null;
+  res.clearCookie('session');
+  res.clearCookie('session.sig');
   res.redirect(CLIENT_HOME_PAGE_URL);
 });
 

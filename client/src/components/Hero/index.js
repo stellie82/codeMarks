@@ -20,7 +20,7 @@ class Hero extends Component {
   render() {
     return (
       <div className="hero">
-        <span class="description">
+        <span className="description">
           Code bookmarking and educational conversation
         </span>
         <pre className="codePreview">
@@ -99,23 +99,12 @@ export default function dijkstra(graph, startVertex) {
           ''
             :
           (<span>
-            <a className="github login" href="http://localhost:3001/auth/github"><i class="devicon-github-plain colored"></i>Sign in with GitHub</a>
+            <a className="github login" href="http://localhost:3001/auth/github"><i className="devicon-github-plain colored"></i>Sign in with GitHub</a>
             <Link className="local login" to="/login/local">...or sign in with a username and password instead</Link>
           </span>)
         }
       </div>
     );
-    // return 'test';
-    // return ({
-    //     this.props.user ?
-    //     '' : (
-    //       <div>
-    //         <a href="/login/github">Authenticate with GitHub</a>
-    //         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    //         <Link to="/login/local"/>...alternatively, sign up with a username and password</Link>
-    //       </div>
-    //     )
-    //   });
   }
 
 }

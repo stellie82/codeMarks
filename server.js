@@ -1,13 +1,13 @@
 // Required modules
 const express = require("express");
 const mongoose = require("mongoose");
-const routes = require("./routes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const passportSetup = require("./config/passport-setup");
 const session = require("express-session");
+const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
 require("dotenv").config();
 
@@ -32,13 +32,9 @@ app.use(
   })
 );
 
-// parse cookies
 app.use(cookieParser());
-
-// initalize passport
 app.use(passport.initialize());
-// deserialize cookie from the browser
-app.use(passport.session());
+app.use(passport.session({ resave: false }));
 
 // set up cors to allow us to accept requests from our client
 app.use(
