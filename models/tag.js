@@ -11,9 +11,17 @@ const tagSchema = new Schema({
             type: String
         }
     ],
+    popularity: {
+        type: Number,
+        default: 0,
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now
+    },
+    isLanguage: {
+        type: Boolean
     }
 });
 

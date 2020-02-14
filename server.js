@@ -9,17 +9,18 @@ const passportSetup = require("./config/passport-setup");
 const session = require("express-session");
 const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
+require("dotenv").config();
 
 // Setup Express app
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Configure middleware
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+  app.use(express.static(path.join(__dirname, "client", "build")));
 }
 
 const COOKIE_KEY = "codemarks";
@@ -31,12 +32,8 @@ app.use(
   })
 );
 
-// parse cookies
 app.use(cookieParser());
-
-// initalize passport
 app.use(passport.initialize());
-// deserialize cookie from the browser
 app.use(passport.session({ resave: false }));
 
 // set up cors to allow us to accept requests from our client

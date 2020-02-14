@@ -5,7 +5,6 @@ import "./prism.css";
 import "./style.css";
 
 class PreviewCard extends Component {
-
   state = {};
 
   constructor(props) {
@@ -35,7 +34,6 @@ class PreviewCard extends Component {
       </Link>
     );
   }
-
 }
 
 export default PreviewCard;
