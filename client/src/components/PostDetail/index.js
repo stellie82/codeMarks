@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
+import Prism from "prismjs";
+import "./prism.css";
+import "./style.css";
+import "./prism-dark.css";
 
 class PostDetail extends Component {
 
   state = {
+    postKey: this.props.match.params.postKey,
     postDetails: {},
     postComments: [],
     postHasLoaded: false,
@@ -15,30 +20,30 @@ class PostDetail extends Component {
   constructor(props) {
     super(props);
     this.socket = null;
-    this.paramsQuery = null;
   }
 
   componentDidMount() {
-    this.paramsQuery = this.useQuery();
-    this.setState({ postKey: this.paramsQuery.get('key') });
-    this.loadPost().then(this.loadComments());
-  }
-
-  useQuery() {
-    return new URLSearchParams(this.useLocation().search);
+    this.loadPost();//.then(this.loadComments());
   }
 
   loadPost() {
     return new Promise((resolve, reject) => {
       if (this.state.postKey) {
-        // TODO: replace "apiCall" below with the fetch request
-        // apiCall.then(postData => {
-        //   this.setState({
-        //     postDetails: postData,
-        //     postHasLoaded: true
-        //   });
-        //   resolve();
-        // }).catch(error => reject(error));
+        let queryString = 'http://localhost:3001/api/posts/' + this.state.postKey;
+        let queryOptions = {
+          method: "GET",
+          credentials: "include",
+          headers: { Accept: "application/json", "Content-Type": "application/json", "Access-Control-Allow-Credentials": true }
+        };
+        fetch(queryString, queryOptions).then(response => {
+          return response.json()
+        }).then(data => {
+          data.content = Prism.highlight(atob(data.content), Prism.languages.javascript, 'javascript');
+          this.setState({
+            postDetails: data,
+            postHasLoaded: true
+          })
+        });
       } else {
         reject('A valid post ID was not provided.');
       }
@@ -85,15 +90,19 @@ class PostDetail extends Component {
   render() {
     return (
       <div>
-        {this.state.postKey} <br/>
-        {'Date: ' + this.state.postDetails.date} <br/>
-        {'Author: ' + this.state.postDetails.author} <br/>
-        {'Title: ' + this.state.postDetails.title} <br/>
-        {'Description: ' + this.state.postDetails.description} <br/>
-        {'Votes: ' + this.state.postDetails.votes} <br/>
-        {'Content: ' + this.state.postDetails.content} <br/>
+        <div className="postHeader">
+          <span className="postAuthor">Author<br/>{this.state.postDetails.author}</span><br/>
+          <span className="postTitle">Title<br/>{this.state.postDetails.title}</span><br/>
+          <span className="postDescription">Description<br/>{this.state.postDetails.description}</span><br/>
+          <pre>
+            <code className="language-javascript" dangerouslySetInnerHTML={{ __html: this.state.postDetails.content }} ></code>
+          </pre>
+        </div>
+        {/*
+        {JSON.stringify(this.state.postDetails)}
         // TODO: render the code container on the left, with title-desc-author above
         // TODO: render the comments on the right, with realtime status above and text input for new comments below
+        */}
       </div>
     );
   }

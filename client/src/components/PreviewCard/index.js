@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Prism from "prismjs";
-import "./style.css";
 import "./prism.css";
+import "./style.css";
 
 class PreviewCard extends Component {
 
@@ -19,7 +19,7 @@ class PreviewCard extends Component {
   render() {
     let highlightedCode = Prism.highlight(atob(this.props.previewData.content), Prism.languages.javascript, 'javascript');
     return (
-      <div className="previewCard">
+      <Link to={'/viewpost/' + this.props.previewData._id} className="previewCard">
         <pre className="codePreview">
           <code className="language-javascript" dangerouslySetInnerHTML={{ __html: highlightedCode }}></code>
         </pre>
@@ -32,7 +32,7 @@ class PreviewCard extends Component {
           <span className="title">{this.props.previewData.title}</span>
           <span className="description">{this.props.previewData.description}</span>
         </div>
-      </div>
+      </Link>
     );
   }
 

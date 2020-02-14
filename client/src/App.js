@@ -124,10 +124,16 @@ class App extends Component {
           />
 
           <Route
-            path="/viewpost"
+            path="/viewpost/:postKey"
             render={props => (
-              <div>
-                <PostDetail {...props} />
+              <div className="container">
+                <Header authenticated={this.state.authenticated}
+                        user={this.state.user}
+                        handleViewPopularPosts={this.handleViewPopularPosts}
+                        />
+                <div className="pageContent">
+                  <PostDetail {...props} />
+                </div>
               </div>
             )}
           />
@@ -138,7 +144,6 @@ class App extends Component {
               <div className="container">
                 <Header authenticated={this.state.authenticated} user={this.state.user} />
                 <div className="pageContent">
-                  { this.state.user.social ? '' : <Hero user={this.state.user} /> }
                   <PostComposer user={this.state.user} />
                 </div>
               </div>
