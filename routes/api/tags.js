@@ -3,8 +3,11 @@ const tagsController = require("../../controllers/tagsController");
 
 // Matches with "/api/tags"
 router
+  .route("/")
   // find all tags
-  .route("/").get(tagsController.findAll)
+  .get(tagsController.findAll)
+  // list popular tags
+  .get(tagsController.popularTags)
 
 // Matches with "/api/tags/:id"
 router
