@@ -5,7 +5,6 @@ import "./style.css";
 import "./prism.css";
 
 class PreviewCard extends Component {
-
   state = {};
 
   constructor(props) {
@@ -63,12 +62,14 @@ class PreviewCard extends Component {
         </div>
         <div class="details">
           <span className="title">RelativeLayout</span>
-          <span className="description">RelativeLayout is a view group that displays child views in positions relative to their siblings or parent</span>
+          <span className="description">
+            RelativeLayout is a view group that displays child views in
+            positions relative to their siblings or parent
+          </span>
         </div>
       </div>
     );
   }
-
 }
 
 export default PreviewCard;
