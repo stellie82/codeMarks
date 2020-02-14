@@ -32,12 +32,8 @@ app.use(
   })
 );
 
-// parse cookies
 app.use(cookieParser());
-
-// initalize passport
 app.use(passport.initialize());
-// deserialize cookie from the browser
 app.use(passport.session());
 
 // set up cors to allow us to accept requests from our client
