@@ -14,7 +14,7 @@
   border-bottom: 0.1em solid transparent;
   flex-basis: 30em;
   flex-grow: 1;
-  margin: 1rem;
+  margin: 0.5rem;
   max-width: 33%;
   min-width: 24em;
 }
@@ -80,6 +80,7 @@
 }
 
 .previewCard span.postTag {
+  font-family: 'Quicksand';
   text-transform: uppercase;
   font-weight: 500;
   padding: 0.2em 0.6em;
@@ -91,7 +92,7 @@
 }
 
 .previewCard span.postTag:hover {
-  border-bottom: 0.1em solid lime;
+  border-bottom: 2px solid lime;
 }
 
 .previewCard span.postTag:not(:last-child) {

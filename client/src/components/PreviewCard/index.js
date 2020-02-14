@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Prism from "prismjs";
-import "./style.css";
 import "./prism.css";
+import "./style.css";
 
 class PreviewCard extends Component {
   state = {};
@@ -16,58 +16,22 @@ class PreviewCard extends Component {
   }
 
   render() {
+    let highlightedCode = Prism.highlight(atob(this.props.previewData.content), Prism.languages.javascript, 'javascript');
     return (
-      <div className="previewCard">
-        <pre class="codePreview">
-          <code class="language-xml">
-            {`
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp" >
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/reminder" />
-    <Spinner
-        android:id="@+id/dates"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/name"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/times" />
-    <Spinner
-        android:id="@id/times"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/name"
-        android:layout_alignParentRight="true" />
-    <Button
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/times"
-        android:layout_alignParentRight="true"
-        android:text="@string/done" />
-</RelativeLayout>
-            `}
-          </code>
+      <Link to={'/viewpost/' + this.props.previewData._id} className="previewCard">
+        <pre className="codePreview">
+          <code className="language-javascript" dangerouslySetInnerHTML={{ __html: highlightedCode }}></code>
         </pre>
         <div className="tagContainer">
           <span className="postTag">Android</span>
           <span className="postTag">XML</span>
           <span className="postTag">UI</span>
         </div>
-        <div class="details">
-          <span className="title">RelativeLayout</span>
-          <span className="description">
-            RelativeLayout is a view group that displays child views in
-            positions relative to their siblings or parent
-          </span>
+        <div className="details">
+          <span className="title">{this.props.previewData.title}</span>
+          <span className="description">{this.props.previewData.description}</span>
         </div>
-      </div>
+      </Link>
     );
   }
 }
