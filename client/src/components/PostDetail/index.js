@@ -23,7 +23,7 @@ class PostDetail extends Component {
   }
 
   componentDidMount() {
-    this.loadPost();//.then(this.loadComments());
+    this.loadPost(); //.then(this.loadComments());
   }
 
   loadPost() {
