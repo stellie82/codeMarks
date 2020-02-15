@@ -1,15 +1,15 @@
-import React, {Component} from "react";
-import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import PostDetail from "./components/PostDetail";
 import PostComposer from "./components/PostComposer";
 import UserProfile from "./components/UserProfile";
 import PreviewCard from "./components/PreviewCard";
+import TagManager from "./components/TagManager";
 import "./style.css";
 
 class App extends Component {
-
   state = {
     user: false,
     authenticated: false,
@@ -20,11 +20,17 @@ class App extends Component {
     fetch("http://localhost:3001/api/posts", {
       method: "GET",
       credentials: "include",
-      headers: { Accept: "application/json", "Content-Type": "application/json", "Access-Control-Allow-Credentials": true }
-    }).then(response => {
-      return response.json();
-    }).then(data => this.setState({ postPreviewData: data }));
-  }
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true
+      }
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => this.setState({ postPreviewData: data }));
+  };
 
   componentDidMount() {
     fetch("http://localhost:3001/auth/checkAuth", {
@@ -37,14 +43,19 @@ class App extends Component {
       }
     })
       .then(response => {
-        if (response.status === 200) { return response.json(); }
+        if (response.status === 200) {
+          return response.json();
+        }
         throw new Error("failed to authenticate user");
       })
       .then(responseJson => {
         this.setState({ authenticated: true, user: responseJson.user });
       })
       .catch(error => {
-        this.setState({ authenticated: false, error: "Failed to authenticate user" });
+        this.setState({
+          authenticated: false,
+          error: "Failed to authenticate user"
+        });
       })
       .finally(this.handleViewPopularPosts());
   }
@@ -76,12 +87,14 @@ class App extends Component {
             break;
         }
       })
-      .then(userInfo => this.setState({user: userInfo}))
-      .catch(error => this.setState({user: false}));
+      .then(userInfo => this.setState({ user: userInfo }))
+      .catch(error => this.setState({ user: false }));
   }
 
   renderPreviewCards() {
-    return this.state.postPreviewData.map((postPreview) => <PreviewCard previewData={postPreview} />);
+    return this.state.postPreviewData.map(postPreview => (
+      <PreviewCard previewData={postPreview} />
+    ));
   }
 
   _handleLogoutClick = () => {
@@ -97,21 +110,24 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-
           <Route
             exact
             path="/"
             render={props => (
               <div className="container">
-                <Header authenticated={this.state.authenticated}
-                        user={this.state.user}
-                        handleViewPopularPosts={this.handleViewPopularPosts}
-                        />
+                <Header
+                  authenticated={this.state.authenticated}
+                  user={this.state.user}
+                  handleViewPopularPosts={this.handleViewPopularPosts}
+                />
                 <div className="pageContent">
-                  { this.state.authenticated ? '' : <Hero user={this.state.user} /> }
-                  <div className="cardBlock">
-                    {this.renderPreviewCards()}
-                  </div>
+                  <TagManager />
+                  {this.state.authenticated ? (
+                    ""
+                  ) : (
+                    <Hero user={this.state.user} />
+                  )}
+                  <div className="cardBlock">{this.renderPreviewCards()}</div>
                 </div>
               </div>
             )}
@@ -127,10 +143,11 @@ class App extends Component {
             path="/viewpost/:postKey"
             render={props => (
               <div className="container">
-                <Header authenticated={this.state.authenticated}
-                        user={this.state.user}
-                        handleViewPopularPosts={this.handleViewPopularPosts}
-                        />
+                <Header
+                  authenticated={this.state.authenticated}
+                  user={this.state.user}
+                  handleViewPopularPosts={this.handleViewPopularPosts}
+                />
                 <div className="pageContent">
                   <PostDetail {...props} />
                 </div>
@@ -142,7 +159,10 @@ class App extends Component {
             path="/newpost"
             render={props => (
               <div className="container">
-                <Header authenticated={this.state.authenticated} user={this.state.user} />
+                <Header
+                  authenticated={this.state.authenticated}
+                  user={this.state.user}
+                />
                 <div className="pageContent">
                   <PostComposer user={this.state.user} />
                 </div>
@@ -158,7 +178,6 @@ class App extends Component {
               </div>
             )}
           />
-
         </Switch>
       </Router>
     );
