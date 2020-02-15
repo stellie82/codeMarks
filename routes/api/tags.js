@@ -7,7 +7,7 @@ router
   // find all tags
   .get(tagsController.findAll)
   // list popular tags
-  .get(tagsController.popularTags)
+  .get(tagsController.popularTags);
 
 // Matches with "/api/tags/:id"
 router
