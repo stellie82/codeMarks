@@ -43,7 +43,7 @@ class PostComposer extends Component {
         "Access-Control-Allow-Credentials": true,
         "Access-Control-Allow-Origin": "localhost:3001"
       },
-      body: postData
+      body: JSON.stringify(postData)
     };
     fetch(queryString, queryOptions)
       .then(response => {
