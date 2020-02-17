@@ -9,6 +9,7 @@ const passportSetup = require("./config/passport-setup");
 const session = require("express-session");
 const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
+const path = require("path");
 require("dotenv").config();
 
 // Setup Express app
