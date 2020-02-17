@@ -1,8 +1,36 @@
-.tagList {
+.tagManager {
   position: absolute;
   top: 0;
   left: -18em;
   width: 16em;
   display: flex;
   flex-direction: column;
+  height: calc(100% - 3em);
+}
+
+.tagManagerHeader {
+  font-family: 'Bebas Neue';
+  font-size: 1.5em;
+  letter-spacing: 0.1em;
+  margin: 0.5em 0em;
+}
+
+.tagManager .filterTags {
+
+}
+
+.tagManager .tagSearchContainer {
+
+}
+
+.tagManager .popularTags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+}
+
+.tagManager .popularTags span.postTag:not(:last-child) {
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
 }
