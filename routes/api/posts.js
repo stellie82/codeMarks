@@ -14,10 +14,10 @@ router
   .put(postsController.update)
   .delete(postsController.remove);
 
-router.route("/popular").get(postsController.getPopularPosts);
+router.route("/popular").get(postsController.popularPosts);
 
-router.route("/recent").get(postsController.getRecentPosts);
+router.route("/recent").get(postsController.recentPosts);
 
-router.route("/myPosts").get(postsController.getMyPosts);
+router.route("/myPosts").get(postsController.myPosts);
 
 module.exports = router;
