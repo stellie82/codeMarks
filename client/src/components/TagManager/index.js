@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Tag from "../Tag";
 import "./style.css";
 
 class TagManager extends Component {
@@ -13,11 +14,11 @@ class TagManager extends Component {
   }
 
   renderTagList() {
-    return this.state.tagData.map(tag => <span>{tag.name}</span>);
+    return this.state.tagData.map(tag => <Tag tagData={tag} />);
   }
 
   loadTags = () => {
-    fetch("http://localhost:3001/api/tags", {
+    fetch("http://localhost:3001/api/tags/popular", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -35,7 +36,18 @@ class TagManager extends Component {
   };
 
   render() {
-    return <div className="tagList">{this.renderTagList()}</div>;
+    return (
+      <div className="tagManager">
+        <span className="tagManagerHeader">Selected Tags</span>
+        <div className="filterTags">...</div>
+        <span className="tagManagerHeader">Tag Search</span>
+        <div className="tagSearchContainer">...</div>
+        <span className="tagManagerHeader">Popular Tags</span>
+        <div className="popularTags">
+          {this.renderTagList()}
+        </div>
+      </div>
+    );
   }
 }
 
