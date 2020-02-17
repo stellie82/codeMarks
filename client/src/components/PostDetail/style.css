@@ -23,6 +23,20 @@ div.postHeader span.postDescription {
 
 }
 
+div.postContent {
+  display: flex;
+  flex-direction: row;
+}
+
+div.postContent pre.postCode {
+  flex-grow: 1;
+}
+
+div.postContent div.postComments {
+  margin-left: 2em;
+  min-width: 35%;
+}
+
 /*
 
 .compositionBox {

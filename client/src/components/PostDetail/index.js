@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
 import Prism from "prismjs";
-import "./prism.css";
 import "./style.css";
 import "./prism-dark.css";
 
@@ -26,6 +25,10 @@ class PostDetail extends Component {
     this.loadPost(); //.then(this.loadComments());
   }
 
+  componentDidUpdate() {
+    Prism.highlightAll();
+  }
+
   loadPost() {
     return new Promise((resolve, reject) => {
       if (this.state.postKey) {
@@ -38,7 +41,8 @@ class PostDetail extends Component {
         fetch(queryString, queryOptions).then(response => {
           return response.json()
         }).then(data => {
-          data.content = Prism.highlight(atob(data.content), Prism.languages.javascript, 'javascript');
+          // data.content = Prism.highlight(atob(data.content), Prism.languages.javascript, 'javascript');
+          data.content = atob(data.content);
           this.setState({
             postDetails: data,
             postHasLoaded: true
@@ -91,18 +95,21 @@ class PostDetail extends Component {
     return (
       <div>
         <div className="postHeader">
-          <span className="postAuthor">Author<br/>{this.state.postDetails.author}</span><br/>
+          <span className="postAuthor">Author<br/>{this.state.postDetails.author ? this.state.postDetails.author.social.github.username : ''}</span><br/>
           <span className="postTitle">Title<br/>{this.state.postDetails.title}</span><br/>
           <span className="postDescription">Description<br/>{this.state.postDetails.description}</span><br/>
-          <pre>
-            <code className="language-javascript" dangerouslySetInnerHTML={{ __html: this.state.postDetails.content }} ></code>
-          </pre>
         </div>
-        {/*
-        {JSON.stringify(this.state.postDetails)}
-        // TODO: render the code container on the left, with title-desc-author above
-        // TODO: render the comments on the right, with realtime status above and text input for new comments below
-        */}
+        <div className="postContent">
+          <pre className="postCode">
+            <code className="language-javascript">{this.state.postDetails.content}</code>
+          </pre>
+          <div className="postComments">
+            TODO<br/>
+            1) add server socket handling and events<br/>
+            2) add "new comment" field in comments box<br/>
+            3) send comment request via socket on submit<br/>
+          </div>
+        </div>
       </div>
     );
   }
