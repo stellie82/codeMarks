@@ -1,15 +1,18 @@
 const router = require("express").Router();
 const tagsController = require("../../controllers/tagsController");
 
-// Matches with "/api/tags"
+//list all tags
 router
   .route("/")
   // find all tags
-  .get(tagsController.findAll)
-  // list popular tags
-  .get(tagsController.popularTags);
+  .get(tagsController.findAll);
 
-// Matches with "/api/tags/:id"
+//list popular tags
+router.route("/popular").get(tagsController.popularTags);
+
+router.route("/searchTag").get(tagsController.findAllByQuery);
+
+//list tag by id
 router
   .route("/:id")
   // find tag by ID

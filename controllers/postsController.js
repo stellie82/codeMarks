@@ -37,7 +37,7 @@ module.exports = {
   },
 
   //find top posts in past 10 days
-  getPopularPosts: function(req, res) {
+  popularPosts: function(req, res) {
     if (req.body.tagFilters) {
       //  db.Post.find(req.query)
       db.Post.find({ tags: { $all: req.body.tagfilters } })
@@ -54,7 +54,7 @@ module.exports = {
     }
   },
   //recent posts
-  getRecentPosts: function(req, res) {
+  recentPosts: function(req, res) {
     if (req.body.tagFilters) {
       //  db.Post.find(req.query)
       startDate = new Date(); // Current date
@@ -73,7 +73,7 @@ module.exports = {
     }
   },
 
-  getMyPosts: function(req, res) {
+  myPosts: function(req, res) {
     if (req.body.tagFilters) {
       db.Post.find({ author: req.user.id }, req.body)
         .then(dbModel => res.json(dbModel))
