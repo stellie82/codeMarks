@@ -112,5 +112,9 @@
 }
 
 .previewCard span.description {
-  padding: 1rem;
+  padding: 0.5rem 1rem 1rem 1rem;
+}
+
+.previewCard span.stats {
+  padding: 0.5rem 1rem;
 }
