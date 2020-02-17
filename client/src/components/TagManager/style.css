@@ -1,4 +1,8 @@
 .tagList {
+  position: absolute;
+  top: 0;
+  left: -18em;
+  width: 16em;
   display: flex;
   flex-direction: column;
 }

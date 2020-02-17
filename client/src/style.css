@@ -31,9 +31,10 @@ a {
 }
 
 .pageContent {
+  position: relative;
   display: flex;
-  flex-direction: row;
-  /* margin-left: 18em; */
+  flex-direction: column;
+  margin-left: 18em;
   flex: 1;
   padding: 0.5rem;
 }

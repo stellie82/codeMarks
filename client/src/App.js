@@ -7,6 +7,7 @@ import PostComposer from "./components/PostComposer";
 import UserProfile from "./components/UserProfile";
 import PreviewCard from "./components/PreviewCard";
 import TagManager from "./components/TagManager";
+import Tag from "./components/Tag";
 import "./style.css";
 
 class App extends Component {
@@ -122,11 +123,7 @@ class App extends Component {
                 />
                 <div className="pageContent">
                   <TagManager />
-                  {this.state.authenticated ? (
-                    ""
-                  ) : (
-                    <Hero user={this.state.user} />
-                  )}
+                  {this.state.authenticated ? '' : <Hero user={this.state.user} /> }
                   <div className="cardBlock">{this.renderPreviewCards()}</div>
                 </div>
               </div>
