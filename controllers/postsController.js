@@ -46,13 +46,19 @@ module.exports = {
   popularPosts: function(req, res) {
     if (req.body.tagFilters) {
       //  db.Post.find(req.query)
-      db.Post.find({ tags: { $all: req.body.tagfilters } })
+      db.Post
+        .find({ tags: { $all: req.body.tagfilters } })
+        .populate('author')
+        .populate('tags')
         .sort({ voteCount: -1 })
         .limit(20)
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err));
     } else {
-      db.Post.find(req.query)
+      db.Post
+        .find(req.query)
+        .populate('author')
+        .populate('tags')
         .sort({ voteCount: -1 })
         .limit(20)
         .then(dbModel => res.json(dbModel))
@@ -65,14 +71,20 @@ module.exports = {
       //  db.Post.find(req.query)
       startDate = new Date(); // Current date
       startDate.setDate(startDate.getDate() - 10);
-      db.Post.find({ created_date: { $gte: startDate } })
-        .sort({ voteCount: -1 })
+      db.Post
+        .find({ created_date: { $gte: startDate } })
+        .populate('author')
+        .populate('tags')
+        .sort({ date: -1 })
         .limit(20)
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err));
     } else {
-      db.Post.find(req.query)
-        .sort({ voteCount: -1 })
+      db.Post
+        .find(req.query)
+        .populate('author')
+        .populate('tags')
+        .sort({ date: -1 })
         .limit(20)
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err));
