@@ -35,6 +35,30 @@ div.header .markOptions {
   flex-grow: 1;
 }
 
+div.header .markOption {
+  font-family: 'Bebas Neue';
+  font-size: 1.5em;
+  letter-spacing: 0.1em;
+  user-select: none;
+  color: skyblue;
+}
+div.header .markOption.selected {
+  border-bottom: 0.1em solid white;
+}
+
+div.header a.markOption {
+  color: lime;
+}
+
+div.header .markOption:hover {
+  border-bottom: 0.1em solid white;
+}
+
+div.header span.markOption:hover {
+  cursor: pointer;
+  color: white;
+}
+
 div.header .markOptions a:before,
 div.header .signOut:after {
 
@@ -42,8 +66,8 @@ div.header .signOut:after {
 div.header .signOut:after {
   text-align: right;
 }
-div.header .popularMarks:before { content: '🔥'; }
+/* div.header .popularMarks:before { content: '🔥'; }
 div.header .recentMarks:before { content: '⏱️'; }
 div.header .myMarks:before { content: '🧍'; }
-div.header .newMark:before { content: '✏️'; }
-div.header .signOut:after { content: '❌'; }
+div.header .newMark:before { content: '✏️'; } */
+div.header .signOut:before { content: '❌'; }

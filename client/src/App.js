@@ -14,6 +14,11 @@ class App extends Component {
   state = {
     user: false,
     authenticated: false,
+    displayOptions: {
+      popular: true,
+      recent: false,
+      mine: false
+    },
     postPreviewData: []
   };
 
@@ -28,7 +33,12 @@ class App extends Component {
       }
     })
       .then(response => response.json())
-      .then(data => this.setState({ postPreviewData: data }));
+      .then(data => this.setState({
+        postPreviewData: data,
+        displayOptions: {
+          popular: false, recent: true, mine: false
+        }
+      }));
   }
 
   handleViewPopularPosts = () => {
@@ -42,7 +52,12 @@ class App extends Component {
       }
     })
       .then(response => response.json())
-      .then(data => this.setState({ postPreviewData: data }));
+      .then(data => this.setState({
+        postPreviewData: data,
+        displayOptions: {
+          popular: true, recent: false, mine: false
+        }
+      }));
   };
 
   componentDidMount() {
@@ -133,6 +148,7 @@ class App extends Component {
                   user={this.state.user}
                   handleViewPopularPosts={this.handleViewPopularPosts}
                   handleViewRecentPosts={this.handleViewRecentPosts}
+                  displayOptions={this.state.displayOptions}
                 />
                 <div className="pageContent">
                   <TagManager />
