@@ -11,6 +11,7 @@ const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
 require("dotenv").config();
 
+
 // Setup Express app
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -32,9 +33,17 @@ app.use(
   })
 );
 
+// app.use(
+// 	session({
+// 		secret: 'codemarks',
+// 		resave: false,
+// 		saveUninitialized: false
+// 	})
+// )
+
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(passport.session({ resave: false }));
+app.use(passport.session());
 
 // set up cors to allow us to accept requests from our client
 app.use(

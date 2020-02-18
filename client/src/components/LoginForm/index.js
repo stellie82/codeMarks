@@ -15,7 +15,21 @@ class LoginForm extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handlePassChange = this.handlePassChange.bind(this);
         this.dismissError = this.dismissError.bind(this);
+    }
+
+    handleChange = event => {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        });
+    };
+
+    handlePassChange(evt) {
+        this.setState({
+            password: evt.target.value,
+        });
     }
 
     dismissError() {
@@ -54,16 +68,14 @@ class LoginForm extends Component {
     }
 
 
-    handleChange(event) {
-		this.setState({
-			[event.target.name]: event.target.value
-		})
-	}
+
 
     render() {
 
         return (
-            <div className="Login">
+            <div>
+                <div className="loginWrap">
+                <h2 className="mainHeader">Login!</h2>
                 <form onSubmit={this.handleSubmit}>
                     {
                         this.state.error &&
@@ -72,18 +84,23 @@ class LoginForm extends Component {
                             {this.state.error}
                         </h3>
                     }
-                   <label>User Name</label>
-                    <input type="text" data-test="username" value={this.state.username} onChange={this.handleChange} />
+                    <label className="fieldlabel">User Name</label>
+                    <input className="fieldInput" type="text" data-test="username" name="username" value={this.state.username} onChange={this.handleChange} />
 
-                    <label>Password</label>
-                    <input type="password" data-test="password" value={this.state.password} onChange={this.handleChange} />
+                    <label className="fieldlabel">Password</label>
+                    <input className="fieldInput" type="password" data-test="password" name="pswd" value={this.state.password} onChange={this.handlePassChange} />
 
-                    <input type="submit" value="Log In" data-test="submit" />
 
-                    <Link to="/login/signup">No account yet! Create One</Link>
+                    <input className="submitButton" type="submit" value="Log In" data-test="submit" />
 
-                    
+
                 </form>
+                </div>
+                <Link to="/user" id="forgot-password-link">Forgot Password?</Link>
+
+                <div class="signup-callout">
+                    Need an account?  <Link to="/login/signup" className="linksignUp">Sign up now!</Link>
+                </div>
             </div>
         );
     }

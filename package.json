@@ -21,6 +21,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.19.0",
+    "bcrypt": "^1.0.2",
+		"bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.4",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
@@ -31,6 +34,7 @@
     "mongoose": "^5.3.16",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0",
+    "passport-local": "^1.0.0",
     "prismjs": "^1.19.0",
     "socket.io-client": "^2.3.0"
   }

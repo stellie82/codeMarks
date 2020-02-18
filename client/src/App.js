@@ -1,7 +1,9 @@
-import React, {Component} from "react";
-import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom";
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import LoginForm from "./components/LoginForm";
+import SignUpForm from "./components/SignUpForm";
 import PostDetail from "./components/PostDetail";
 import PostComposer from "./components/PostComposer";
 import UserProfile from "./components/UserProfile";
@@ -76,8 +78,8 @@ class App extends Component {
             break;
         }
       })
-      .then(userInfo => this.setState({user: userInfo}))
-      .catch(error => this.setState({user: false}));
+      .then(userInfo => this.setState({ user: userInfo }))
+      .catch(error => this.setState({ user: false }));
   }
 
   renderPreviewCards() {
@@ -104,11 +106,11 @@ class App extends Component {
             render={props => (
               <div className="container">
                 <Header authenticated={this.state.authenticated}
-                        user={this.state.user}
-                        handleViewPopularPosts={this.handleViewPopularPosts}
-                        />
+                  user={this.state.user}
+                  handleViewPopularPosts={this.handleViewPopularPosts}
+                />
                 <div className="pageContent">
-                  { this.state.authenticated ? '' : <Hero user={this.state.user} /> }
+                  {this.state.authenticated ? '' : <Hero user={this.state.user} />}
                   <div className="cardBlock">
                     {this.renderPreviewCards()}
                   </div>
@@ -120,7 +122,33 @@ class App extends Component {
           <Route
             exact
             path="/login/local"
-            render={props => <div>Login form here</div>}
+            render={props => (
+              <div className="container">
+                <Header authenticated={this.state.authenticated}
+                  user={this.state.user}
+                  handleViewPopularPosts={this.handleViewPopularPosts}
+                />
+                <div className="pageContent">
+                  <LoginForm {...props} />
+                </div>
+              </div>
+            )}
+          />
+
+          <Route
+            exact
+            path="/login/signup"
+            render={props => (
+              <div className="container">
+                <Header authenticated={this.state.authenticated}
+                  user={this.state.user}
+                  handleViewPopularPosts={this.handleViewPopularPosts}
+                />
+                <div className="pageContent">
+                  <SignUpForm {...props} />
+                </div>
+              </div>
+            )}
           />
 
           <Route
@@ -128,9 +156,9 @@ class App extends Component {
             render={props => (
               <div className="container">
                 <Header authenticated={this.state.authenticated}
-                        user={this.state.user}
-                        handleViewPopularPosts={this.handleViewPopularPosts}
-                        />
+                  user={this.state.user}
+                  handleViewPopularPosts={this.handleViewPopularPosts}
+                />
                 <div className="pageContent">
                   <PostDetail {...props} />
                 </div>
