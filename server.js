@@ -24,22 +24,22 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client", "build")));
 }
 
-const COOKIE_KEY = "codemarks";
-app.use(
-  cookieSession({
-    name: "session",
-    keys: [COOKIE_KEY],
-    maxAge: 24 * 60 * 60 * 100
-  })
-);
-
+// const COOKIE_KEY = "codemarks";
 // app.use(
-// 	session({
-// 		secret: 'codemarks',
-// 		resave: false,
-// 		saveUninitialized: false
-// 	})
-// )
+//   cookieSession({
+//     name: "session",
+//     keys: [COOKIE_KEY],
+//     maxAge: 24 * 60 * 60 * 100
+//   })
+// );
+
+app.use(
+	session({
+		secret: 'codemarks',
+		resave: false,
+		saveUninitialized: false
+	})
+)
 
 app.use(cookieParser());
 app.use(passport.initialize());
