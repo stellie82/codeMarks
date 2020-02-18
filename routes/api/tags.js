@@ -10,7 +10,7 @@ router
 //list popular tags
 router.route("/popular").get(tagsController.popularTags);
 
-router.route("/searchTag").get(tagsController.findAllByQuery);
+router.route("/searchTag").post(tagsController.findAllByQuery);
 
 //list tag by id
 router
