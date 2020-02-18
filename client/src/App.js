@@ -17,8 +17,8 @@ class App extends Component {
     postPreviewData: []
   };
 
-  handleViewPopularPosts = () => {
-    fetch("http://localhost:3001/api/posts", {
+  handleViewRecentPosts = () => {
+    fetch("http://localhost:3001/api/posts/recent", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -27,9 +27,21 @@ class App extends Component {
         "Access-Control-Allow-Credentials": true
       }
     })
-      .then(response => {
-        return response.json();
-      })
+      .then(response => response.json())
+      .then(data => this.setState({ postPreviewData: data }));
+  }
+
+  handleViewPopularPosts = () => {
+    fetch("http://localhost:3001/api/posts/popular", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true
+      }
+    })
+      .then(response => response.json())
       .then(data => this.setState({ postPreviewData: data }));
   };
 
@@ -120,6 +132,7 @@ class App extends Component {
                   authenticated={this.state.authenticated}
                   user={this.state.user}
                   handleViewPopularPosts={this.handleViewPopularPosts}
+                  handleViewRecentPosts={this.handleViewRecentPosts}
                 />
                 <div className="pageContent">
                   <TagManager />
