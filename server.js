@@ -10,6 +10,7 @@ const session = require("express-session");
 const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
 const path = require("path");
+const MongoClient = require("mongodb").MongoClient;
 require("dotenv").config();
 
 // Setup Express app
@@ -17,7 +18,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Configure middleware
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {
@@ -35,7 +36,7 @@ app.use(
 
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(passport.session({ resave: false }));
+app.use(passport.session({resave: false}));
 
 // set up cors to allow us to accept requests from our client
 app.use(
@@ -51,11 +52,21 @@ app.use(routes);
 app.use("/auth", authRoutes);
 
 // Mongo DB connection
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/codeMarks";
+var MONGODB_URI = process.env.CONNECTION_STRING;
 mongoose.connect(MONGODB_URI, {
+  dbName: "codeMarks",
   useUnifiedTopology: true,
   useNewUrlParser: true
-});
+})
+.then(() => console.log("MongoDB Atlas connected"))
+.catch(err => console.log(err));
+
+
+// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/codeMarks";
+// mongoose.connect(MONGODB_URI, {
+//   useUnifiedTopology: true,
+//   useNewUrlParser: true
+// });
 
 const authCheck = (req, res, next) => {
   if (!req.user) {
