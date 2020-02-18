@@ -11,6 +11,7 @@ import Tag from "./components/Tag";
 import "./style.css";
 
 class App extends Component {
+
   state = {
     user: false,
     authenticated: false,
@@ -19,10 +20,25 @@ class App extends Component {
       recent: false,
       mine: false
     },
-    postPreviewData: []
+    postPreviewData: [],
+    hidePageContent: true
   };
 
-  handleViewRecentPosts = () => {
+  hidePageContent = () => {
+    return new Promise((resolve, reject) => {
+      this.setState({ hidePageContent: true });
+      setTimeout(resolve, 200);
+    });
+  }
+  showPageContent = () => {
+    return new Promise((resolve, reject) => {
+      this.setState({ hidePageContent: false });
+      setTimeout(resolve, 200);
+    });
+  }
+
+  handleViewRecentPosts = async () => {
+    await this.hidePageContent();
     fetch("http://localhost:3001/api/posts/recent", {
       method: "GET",
       credentials: "include",
@@ -38,10 +54,14 @@ class App extends Component {
         displayOptions: {
           popular: false, recent: true, mine: false
         }
-      }));
+      }))
+      .finally(() => {
+        setTimeout(this.showPageContent, 200);
+      });
   }
 
-  handleViewPopularPosts = () => {
+  handleViewPopularPosts = async () => {
+    await this.hidePageContent();
     fetch("http://localhost:3001/api/posts/popular", {
       method: "GET",
       credentials: "include",
@@ -57,10 +77,14 @@ class App extends Component {
         displayOptions: {
           popular: true, recent: false, mine: false
         }
-      }));
+      }))
+      .finally(() => {
+        setTimeout(this.showPageContent, 200);
+      });
   };
 
-  handleViewMyPosts = () => {
+  handleViewMyPosts = async () => {
+    await this.hidePageContent();
     fetch("http://localhost:3001/api/posts/mine", {
       method: "GET",
       credentials: "include",
@@ -76,7 +100,10 @@ class App extends Component {
         displayOptions: {
           popular: false, recent: false, mine: true
         }
-      }));
+      }))
+      .finally(() => {
+        setTimeout(this.showPageContent, 200);
+      });
   };
 
   componentDidMount() {
@@ -162,6 +189,7 @@ class App extends Component {
             path="/"
             render={props => (
               <div className="container">
+                {this.state.hidePageContent}
                 <Header
                   authenticated={this.state.authenticated}
                   user={this.state.user}
@@ -170,7 +198,7 @@ class App extends Component {
                   handleViewMyPosts={this.handleViewMyPosts}
                   displayOptions={this.state.displayOptions}
                 />
-                <div className="pageContent">
+                <div className={`pageContent ${this.state.hidePageContent ? 'hidden' : ''}`}>
                   <TagManager />
                   {this.state.authenticated ? '' : <Hero user={this.state.user} /> }
                   <div className="cardBlock">{this.renderPreviewCards()}</div>

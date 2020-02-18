@@ -21,8 +21,8 @@ div.header a.title {
   letter-spacing: 0.2em;
   color: white;
 }
-div.header a.title:before { content: '<'; }
-div.header a.title:after { content: '>'; }
+div.header a.title:before { content: '<'; margin-right: 0.1em !important; }
+div.header a.title:after { content: '>'; margin-left: 0.1em !important; }
 div.header a.title:hover:before { color: lime; }
 div.header a.title:hover:after { color: lime; }
 
@@ -43,6 +43,7 @@ div.header .markOption {
   color: skyblue;
 }
 div.header .markOption.selected {
+  color: white;
   border-bottom: 0.1em solid white;
 }
 

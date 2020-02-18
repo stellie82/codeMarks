@@ -1,10 +1,15 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,500,600&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Bebas+Neue|Quicksand:300,400,500,600,700|Rubik:300,400,500,700&display=swap");
+
 span.postTag {
   display: inline;
   font-family: 'Quicksand';
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 700;
   padding: 0.2em 0.6em;
   border-radius: 0.25em;
+  color: rgbA(255, 255, 255, 0.80);
   background: rgbA(40, 40, 40, 1.00);
   letter-spacing: 0.1em;
   box-shadow: 0 0 1em rgbA(0, 0, 0, 1.00),
@@ -15,6 +20,7 @@ span.postTag {
 
 span.postTag:hover {
   cursor: pointer;
+  color: rgbA(255, 255, 255, 1.00);
   border-bottom: 2px solid lime;
   margin-bottom: calc(0.5em + 2px) !important;
 }
