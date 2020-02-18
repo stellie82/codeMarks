@@ -60,6 +60,25 @@ class App extends Component {
       }));
   };
 
+  handleViewMyPosts = () => {
+    fetch("http://localhost:3001/api/posts/mine", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true
+      }
+    })
+      .then(response => response.json())
+      .then(data => this.setState({
+        postPreviewData: data,
+        displayOptions: {
+          popular: false, recent: false, mine: true
+        }
+      }));
+  };
+
   componentDidMount() {
     fetch("http://localhost:3001/auth/checkAuth", {
       method: "GET",
@@ -148,6 +167,7 @@ class App extends Component {
                   user={this.state.user}
                   handleViewPopularPosts={this.handleViewPopularPosts}
                   handleViewRecentPosts={this.handleViewRecentPosts}
+                  handleViewMyPosts={this.handleViewMyPosts}
                   displayOptions={this.state.displayOptions}
                 />
                 <div className="pageContent">

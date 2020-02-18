@@ -9,11 +9,12 @@ span.postTag {
   letter-spacing: 0.1em;
   box-shadow: 0 0 1em rgbA(0, 0, 0, 1.00),
               0 0 1em rgbA(0, 0, 0, 1.00);
-  margin-bottom: 2px;
+  margin-bottom: calc(0.5em + 4px) !important;
+  user-select: none;
 }
 
 span.postTag:hover {
   cursor: pointer;
   border-bottom: 2px solid lime;
-  margin-bottom: 0px;
+  margin-bottom: calc(0.5em + 2px) !important;
 }
