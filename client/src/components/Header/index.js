@@ -21,7 +21,7 @@ class Header extends Component {
         <div className="btn-row markOptions">
           <span className={`markOption popularMarks ${this.props.displayOptions ? (this.props.displayOptions.popular ? 'selected' : '') : ''}`} onClick={this.props.handleViewPopularPosts}>Popular marks</span>
           <span className={`markOption recentMarks ${this.props.displayOptions ? (this.props.displayOptions.recent ? 'selected' : '') : ''}`} onClick={this.props.handleViewRecentPosts}>Recent marks</span>
-          { this.props.authenticated ? <span to="/mine" className={`markOption myMarks ${this.props.displayOptions ? (this.props.displayOptions.mine ? 'selected' : '') : ''}`} onClick={this.handleViewMyPosts}>My marks</span> : '' }
+          { this.props.authenticated ? <span to="/mine" className={`markOption myMarks ${this.props.displayOptions ? (this.props.displayOptions.mine ? 'selected' : '') : ''}`} onClick={this.props.handleViewMyPosts}>My marks</span> : '' }
           { this.props.authenticated ? <Link to="/newpost" className="markOption newMark">New mark</Link> : '' }
         </div>
         {this.props.authenticated ?
