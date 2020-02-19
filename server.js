@@ -89,12 +89,12 @@ server.listen(PORT, function() {
 });
 
 io.on('connection', (socket) => {
-  console.log('socket opened');
   let postKey = socket.handshake.query.postKey;
   let userKey = socket.handshake.query.userKey;
   socket.join(postKey);
   socket.postKey = postKey;
   socket.userKey = userKey;
+  console.log('socket opened for ' + (socket.userKey ? ('user ' + socket.userKey) : 'guest'));
   db.Comment
     .find({ post_id: socket.postKey })
     .populate('author')
@@ -124,6 +124,6 @@ io.on('connection', (socket) => {
   });
   socket.on('disconnect', (socket) => {
     // TODO: Is there anything we need to do here?
-    console.log('socket closed');
+    console.log('socket closed for ' + (socket.userKey ? ('user ' + socket.userKey) : 'guest'));
   });
 });
