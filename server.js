@@ -9,6 +9,8 @@ const passportSetup = require("./config/passport-setup");
 const session = require("express-session");
 const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
+const path = require("path");
+const MongoClient = require("mongodb").MongoClient;
 require("dotenv").config();
 
 // Setup Express app
@@ -61,7 +63,6 @@ mongoose.connect(MONGODB_URI, {
 })
 .then(() => console.log("MongoDB Atlas connected"))
 .catch(err => console.log(err));
-
 
 // var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/codeMarks";
 // mongoose.connect(MONGODB_URI, {
