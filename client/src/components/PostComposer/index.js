@@ -57,7 +57,7 @@ class PostComposer extends Component {
     return (
       <div className="compositionBox">
         <div className="formStyle postAuthorName">
-          <span className="formStyleInput postAuthorName">{this.props.user.social ? this.props.user.social.github.username : ''}</span>
+          <span className="formStyleInput postAuthorName">{this.props.user.social ? this.props.user.social.github.username : this.props.user.local.username}</span>
         </div>
         <div className="formStyle postTitleBox">
           <input type="text" name="postTitleBox" className="formStyleInput postTitleBox" ref={this.postTitleInput}  onChange={this.handleTitleChange}></input>

@@ -1,0 +1,94 @@
+.loginWrap{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    padding-left:25%;
+    }
+
+.mainHeader{
+    font-size: 3.5rem;
+    margin-bottom:10px;
+    margin-top:0;
+    color: lime;
+    font-family: 'Telefon', Sans-Serif;
+
+}
+
+.fieldlabel{
+    font-weight: normal;
+    display: block;
+    margin: 3px 0 5px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #9b9dad;
+}
+
+.fieldInput{
+    font-size: 1.3rem;
+    max-width: 100%;
+    padding: 10px;
+    margin: 0 0 10px 0;
+    font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+    outline: 0;
+    background: #d5d7de;
+    border: 3px solid #d5d7de;
+    border-radius: 3px;
+}
+
+.submitButton{
+    display: block;
+    width: 39%;
+    font-size: 1.1rem;
+    background: #2fb45a;
+    color: #000;
+    cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-decoration: none !important;
+    text-align: center;
+    font-weight: normal !important;
+    border-radius: 4px;
+    border: 3px solid transparent;
+    padding: 10px 16px;
+    margin: 10px 10px 0 0;
+    text-shadow: none;
+    line-height: 1.2;
+    font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+}
+
+#forgot-password-link {
+    margin-top:10px;
+    margin-bottom:20px;
+    display: block;
+    text-decoration: none;
+    color: #76daff;
+    font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+    line-height: 1.5;
+    font-size: 15px;
+    font-weight: 400;
+    padding-left:35%;
+}
+
+.signup-callout {
+    display: block;
+    padding: 20px;
+    position: relative;
+    background: #2c303a;
+    border-radius: 6px;
+    margin: 0 0 20px 0;
+    color: white;
+    font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+    line-height: 1.5;
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 40px;
+    text-align: center;
+    margin: 0 0 20px 230px;
+    width:40%;
+}
+
+.linksignUp{
+    text-decoration: none;
+    color: #76daff;
+}

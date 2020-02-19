@@ -95,15 +95,26 @@ class PostDetail extends Component {
     return (
       <div>
         <div className="postHeader">
-          <span className="postAuthor">Author<br/>{this.state.postDetails.author ? this.state.postDetails.author.social.github.username : ''}</span><br/>
-          <span className="postTitle">Title<br/>{this.state.postDetails.title}</span><br/>
-          <span className="postDescription">Description<br/>{this.state.postDetails.description}</span><br/>
+          <span className="postAuthor">
+            <span className="marginLabel">Author</span>
+            {this.state.postDetails.author ? (this.state.postDetails.author.social ? this.state.postDetails.author.social.github.username : this.state.postDetails.author.local.username) : ''}
+          </span><br/>
+          <span className="postTitle">
+            <span className="marginLabel">Title</span>
+            {this.state.postDetails.title}
+          </span><br/>
+          <span className="postDescription">
+            <span className="marginLabel">Description</span>
+            {this.state.postDetails.description}
+          </span><br/>
+          <span className="marginLabel">JavaScript Code</span>
         </div>
         <div className="postContent">
           <pre className="postCode">
             <code className="language-javascript">{this.state.postDetails.content}</code>
           </pre>
           <div className="postComments">
+            <span className="marginLabel">Comments</span>
             TODO<br/>
             1) add server socket handling and events<br/>
             2) add "new comment" field in comments box<br/>

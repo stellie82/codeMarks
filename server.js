@@ -9,8 +9,8 @@ const passportSetup = require("./config/passport-setup");
 const session = require("express-session");
 const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
-const path = require("path");
 require("dotenv").config();
+
 
 // Setup Express app
 const app = express();
@@ -24,18 +24,26 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client", "build")));
 }
 
-const COOKIE_KEY = "codemarks";
+// const COOKIE_KEY = "codemarks";
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     keys: [COOKIE_KEY],
+//     maxAge: 24 * 60 * 60 * 100
+//   })
+// );
+
 app.use(
-  cookieSession({
-    name: "session",
-    keys: [COOKIE_KEY],
-    maxAge: 24 * 60 * 60 * 100
-  })
-);
+	session({
+		secret: 'codemarks',
+		resave: false,
+		saveUninitialized: false
+	})
+)
 
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(passport.session({ resave: false }));
+app.use(passport.session());
 
 // set up cors to allow us to accept requests from our client
 app.use(

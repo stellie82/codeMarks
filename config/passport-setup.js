@@ -1,5 +1,6 @@
 const passport = require("passport");
-const Strategy = require("passport-github").Strategy;
+const GitHubStrategy = require("passport-github").Strategy;
+const LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/user");
 require("dotenv").config();
 
@@ -21,7 +22,7 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-  new Strategy(
+  new GitHubStrategy(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
@@ -39,7 +40,7 @@ passport.use(
           'social.github.token': token,
           'social.github.displayName': profile.displayName,
           'social.github.username': profile.username,
-          'social.github.photo':profile.photos[0].value        
+          'social.github.photo':profile.photos[0].value
         }).save();
         if (newUser) {
           done(null, newUser);
@@ -49,3 +50,23 @@ passport.use(
     }
   )
 );
+
+passport.use(new LocalStrategy(
+	function(username, password, done) {
+
+		User.findOne({ 'local.username': username }, (err, userMatch) => {
+			if (err) {
+				return done(err)
+			}
+			if (!userMatch) {
+				return done(null, false, { message: 'Incorrect username' })
+			}
+			if (!userMatch.checkPassword(password)) {
+
+				return done(null, false, { message: 'Incorrect password' })
+      }
+
+			return done(null, userMatch)
+		})
+	}
+));
