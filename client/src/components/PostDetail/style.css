@@ -35,6 +35,13 @@ div.postContent pre.postCode {
 div.postContent div.postComments {
   margin-left: 2em;
   min-width: 35%;
+  display: flex;
+  flex-direction: column;
+}
+
+div.commentsReverser {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 span.marginLabel {

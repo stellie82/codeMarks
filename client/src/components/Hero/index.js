@@ -8,10 +8,6 @@ class Hero extends Component {
 
   state = {};
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     Prism.highlightAll();
 

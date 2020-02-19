@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bebas+Neue|Quicksand:300,400,500,600,700|Rubik:300,400,500,700&display=swap');
+
+.commentBox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  background: rgbA(10, 10, 10, 1.00);
+  padding: 0.5em;
+  padding-left: 4rem;
+  min-height: 3rem;
+  color: white;
+  overflow: hidden;
+}
+.commentBox:not(:last-child) {
+  margin-bottom: 0.5em;
+}
+.commentBox .avatar {
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  height: 3rem;
+  width: 3rem;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.5em;
+}
+.commentBox .commentAuthor {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: 'Quicksand';
+  letter-spacing: 0.1em;
+  font-size: 0.8em;
+  color: lime;
+}

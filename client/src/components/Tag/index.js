@@ -9,7 +9,7 @@ class Tag extends Component {
 
   render() {
     return (
-      this.props.tagData ? <span class="postTag">{this.props.tagData.name}</span> : ''
+      this.props.tagData ? <span className="postTag">{this.props.tagData.name}</span> : ''
     );
   }
 }

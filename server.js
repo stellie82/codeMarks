@@ -9,6 +9,7 @@ const passportSetup = require("./config/passport-setup");
 const session = require("express-session");
 const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
+const db = require("./models");
 require("dotenv").config();
 
 // Setup Express app
@@ -88,16 +89,41 @@ server.listen(PORT, function() {
 });
 
 io.on('connection', (socket) => {
+  console.log('socket opened');
   let postKey = socket.handshake.query.postKey;
+  let userKey = socket.handshake.query.userKey;
   socket.join(postKey);
   socket.postKey = postKey;
-  socket.emit('existingComments', []);  // TODO: send comments array here
+  socket.userKey = userKey;
+  db.Comment
+    .find({ post_id: socket.postKey })
+    .populate('author')
+    .sort({ date: -1 })
+    .then(dbModel => {
+      console.log(dbModel);
+      socket.emit('existingComments', JSON.stringify(dbModel));
+    })
+    .catch(err => console.log(err));
   socket.on('newCommentRequest', (commentData) => {
-    // TODO: save the comment via Mongoose here, and then broadcast it to the room:
-    io.in(socket.postKey).emit('newComment', commentData);
+    if (!socket.userKey) return;
+    commentData.post_id = socket.postKey;
+    commentData.author = socket.userKey;
+    db.Comment
+      .create(commentData)
+      .then(dbModel => {
+        // save to post's comments array here
+        db.Comment
+          .find({ _id: dbModel._id })
+          .populate('author')
+          .then(dbModel2 => {
+            console.log(dbModel2);
+            io.in(socket.postKey).emit('newComment', JSON.stringify(dbModel2));
+          })
+      })
+      .catch(err => { console.log(err); });
   });
-});
-
-io.on('disconnect', (socket) => {
-  console.log(socket);
+  socket.on('disconnect', (socket) => {
+    // TODO: Is there anything we need to do here?
+    console.log('socket closed');
+  });
 });

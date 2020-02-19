@@ -14,7 +14,7 @@ class TagManager extends Component {
   }
 
   renderTagList() {
-    return this.state.tagData.map(tag => <Tag tagData={tag} />);
+    return this.state.tagData.map(tag => <Tag tagData={tag} key={tag._id} />);
   }
 
   loadTags = () => {
