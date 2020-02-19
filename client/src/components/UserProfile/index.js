@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 
 class UserProfile extends Component {
-  // TODO: add the mouseenter and mouseleave event hander to pass the "code highlight" events up to the parent PostDetail component
 
   state = {};
-
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {}
 

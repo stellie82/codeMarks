@@ -12,7 +12,7 @@
   font-family: 'Bebas Neue';
   font-size: 1.5em;
   letter-spacing: 0.1em;
-  margin: 0.5em 0em;
+  margin: 1em 0em;
 }
 
 .tagManager .filterTags {
@@ -23,14 +23,38 @@
 
 }
 
+.tagManager .tagSearch {
+  border-radius: 0.5rem;
+  background: rgbA(10, 10, 10, 1.00);
+  color: white;
+  font-size: 1.2rem;
+  overflow: hidden;
+  outline: none;
+  border: none;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.tagManager .tagSearch::placeholder {
+  font-style: italic;
+}
+
 .tagManager .popularTags {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-
 }
 
-.tagManager .popularTags span.postTag:not(:last-child) {
+.tagManager .popularTags span.postTag:not(:last-child),
+.tagManager .searchedTags span.postTag:not(:last-child) {
   margin-right: 0.5em;
   margin-bottom: 0.5em;
+}
+
+.tagManager .noSearchResults {
+  margin-left: 0.5em;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: 'Quicksand';
+  letter-spacing: 0.1em;
 }

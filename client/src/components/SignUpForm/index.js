@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import Axios from "axios";
 import { Link } from "react-router-dom";
 import "./style.css";
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 
 class SignUpForm extends Component {
 

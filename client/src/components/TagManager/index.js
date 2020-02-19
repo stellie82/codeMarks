@@ -17,14 +17,19 @@ class TagManager extends Component {
 
   handleSearchInput = event => {
     this.setState({ searchInput: event.target.value.split(" ") });
+    setTimeout(this.searchForTags, 200);
   };
 
   renderTagList() {
-    return this.state.tagData.map(tag => <Tag tagData={tag} />);
+    return this.state.tagData.map(tag => <Tag tagData={tag} key={tag._id} />);
   }
 
   renderTagSearchResults() {
-    return this.state.tagSearchResults.map(tag => <Tag tagData={tag} />);
+    if (!this.state.tagSearchResults || this.state.tagSearchResults.length === 0) {
+      return (<span className="noSearchResults">No results</span>);
+    } else {
+      return this.state.tagSearchResults.map(tag => <Tag tagData={tag} key={tag._id} />);
+    }
   }
 
   loadTags = () => {
@@ -68,27 +73,22 @@ class TagManager extends Component {
     return (
       <div className="tagManager">
         <span className="tagManagerHeader">Selected Tags</span>
-        <div className="filterTags"> {this.renderTagSearchResults()}</div>
+        <div className="filterTags"></div>
         <span className="tagManagerHeader">Tag Search</span>
         <div className="tagSearchContainer">
           <input
             type="text"
             id="tagSearch"
             className="tagSearch"
+            autoComplete="off"
+            placeholder="Search for tags..."
             ref={this.tagSearchInput}
             onChange={this.handleSearchInput}
           ></input>
+          <div className="searchedTags">
+            {this.renderTagSearchResults()}
+          </div>
         </div>
-
-        <div className="btn-row submitSearch">
-          <span
-            className="lime rounded-btn icon-btn-before publishPost"
-            onClick={e => this.searchForTags(e)}
-          >
-            Search For Tags
-          </span>
-        </div>
-
         <span className="tagManagerHeader">Popular Tags</span>
         <div className="popularTags">{this.renderTagList()}</div>
       </div>

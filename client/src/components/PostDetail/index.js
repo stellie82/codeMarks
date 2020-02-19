@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
 import Prism from "prismjs";
+import PostComment from "../PostComment";
 import "./style.css";
 import "./prism-dark.css";
 
@@ -30,7 +31,7 @@ class PostDetail extends Component {
   }
 
   componentWillUnmount() {
-    this.socket.disconnect();
+    this.socket.disconnect(true);
   }
 
   loadPost() {
@@ -60,42 +61,70 @@ class PostDetail extends Component {
 
   loadComments() {
     this.socket = io.connect({
-      query: { postKey: this.state.postKey },
+      query: {
+        postKey: this.state.postKey,
+        userKey: this.props.user._id
+      },
       rejectUnauthorized: false
     });
     this.socket.on('connection', (socket) => { this.setState({ commentsAreRealtime: true }); });
     this.socket.on('disconnect', (socket) => { this.setState({ commentsAreRealtime: false }); });
-    this.socket.on('existingComments', (comments) => { this.setState({ postComments: comments }); });
-    this.socket.on('newComment', this.handleInboundNewComment);
+    this.socket.on('existingComments', (comments) => { this.setState({ postComments: JSON.parse(comments) }); });
+    this.socket.on('newComment', (commentData) => {
+      this.handleInboundNewComment(JSON.parse(commentData));
+    });
   }
 
-  handleInboundNewComment(commentData) {
+  handleInboundNewComment = (commentData) => {
     if (this.state.postHasLoaded) {
       if (this.state.postComments.length > 0) {
         // append this comment to the existing array
         this.setState((existingState) => ({
-          postComments: [...existingState.postComments, commentData]
+          postComments: [...existingState.postComments, commentData[0]]
         }));
       } else {
         // this new comment is the first one, so set the array to it
         this.setState({
-          postComments: [commentData]
+          postComments: [commentData[0]]
         });
       }
     }
   }
 
-  postNewComment(commentText) {
-    // TODO: this function should be called by the "submit" button after the user has typed in a new comment
+  postNewComment = () => {
     let commentData = {
-      author: this.props.authUser.id,
-      text: commentText
+      content: this.state.commentDraft
     };
     if (this.state.userHighlightStart && this.state.userHighlightEnd) {
       commentData.highlightStart = this.state.userHighlightStart;
       commentData.highlightEnd = this.state.userHighlightEnd;
     }
     this.socket.emit('newCommentRequest', commentData);
+  }
+
+  handleCommentDraftChange = (event) => { this.setState({ commentDraft: event.target.value }); }
+
+  renderCommentCompositionBox() {
+    if (this.props.user) {
+      return (
+        <div className="commentComposition">
+          <input type="text" onChange={this.handleCommentDraftChange} />
+          <span className="btn-rounded" onClick={this.postNewComment} >Publish comment</span>
+        </div>
+      );
+    } else {
+      return (<span className="noComments">Sign in to post a new comment.</span>);
+    }
+  }
+
+  renderComments() {
+    if (this.state.postComments) {
+      return this.state.postComments.map(comment => (
+        <PostComment commentData={comment} key={comment._id} />
+      ));
+    } else {
+      return (<span>This post has no comments.</span>);
+    }
   }
 
   render() {
@@ -122,10 +151,10 @@ class PostDetail extends Component {
           </pre>
           <div className="postComments">
             <span className="marginLabel">Comments</span>
-            TODO<br/>
-            1) add server socket handling and events<br/>
-            2) add "new comment" field in comments box<br/>
-            3) send comment request via socket on submit<br/>
+            {this.renderCommentCompositionBox()}
+            <div className="commentsReverser">
+              {this.renderComments()}
+            </div>
           </div>
         </div>
       </div>

@@ -5,9 +5,8 @@ const commentSchema = new Schema({
     post_id: {
         type: Schema.Types.ObjectId,
         ref: "Post",
-
     },
-    user_id: {
+    author: {
         type: Schema.Types.ObjectId,
         ref: "User"
     },
@@ -16,7 +15,12 @@ const commentSchema = new Schema({
     sel_end: Number,
     date: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        required: true
+    },
+    content: {
+      type: String,
+      required: true
     }
 });
 
