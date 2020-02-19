@@ -5,7 +5,7 @@
 div.hero {
   position: relative;
   padding: 1em 2em;
-  height: 20em;
+  height: 14em;
   display: flex;
   flex-direction: column;
   justify-content: center;

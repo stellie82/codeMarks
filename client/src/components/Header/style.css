@@ -47,7 +47,7 @@ div.header .markOption.selected {
   border-bottom: 0.1em solid white;
 }
 
-div.header a.markOption {
+div.header .newMark.markOption {
   color: lime;
 }
 

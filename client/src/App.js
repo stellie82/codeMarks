@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import PostDetail from "./components/PostDetail";
@@ -7,6 +7,8 @@ import PostComposer from "./components/PostComposer";
 import UserProfile from "./components/UserProfile";
 import PreviewCard from "./components/PreviewCard";
 import TagManager from "./components/TagManager";
+import SignUpForm from "./components/SignUpForm";
+import LoginForm from "./components/LoginForm";
 import Tag from "./components/Tag";
 import "./style.css";
 
@@ -21,7 +23,7 @@ class App extends Component {
       mine: false
     },
     postPreviewData: [],
-    hidePageContent: true
+    hidePageContent: false
   };
 
   hidePageContent = () => {
@@ -38,7 +40,6 @@ class App extends Component {
   }
 
   handleViewRecentPosts = async () => {
-    await this.hidePageContent();
     fetch("http://localhost:3001/api/posts/recent", {
       method: "GET",
       credentials: "include",
@@ -56,12 +57,11 @@ class App extends Component {
         }
       }))
       .finally(() => {
-        setTimeout(this.showPageContent, 200);
+        // setTimeout(this.showPageContent, 200);
       });
   }
 
   handleViewPopularPosts = async () => {
-    await this.hidePageContent();
     fetch("http://localhost:3001/api/posts/popular", {
       method: "GET",
       credentials: "include",
@@ -79,12 +79,11 @@ class App extends Component {
         }
       }))
       .finally(() => {
-        setTimeout(this.showPageContent, 200);
+        // setTimeout(this.showPageContent, 200);
       });
   };
 
   handleViewMyPosts = async () => {
-    await this.hidePageContent();
     fetch("http://localhost:3001/api/posts/mine", {
       method: "GET",
       credentials: "include",
@@ -102,7 +101,7 @@ class App extends Component {
         }
       }))
       .finally(() => {
-        setTimeout(this.showPageContent, 200);
+        // setTimeout(this.showPageContent, 200);
       });
   };
 
@@ -130,8 +129,8 @@ class App extends Component {
           authenticated: false,
           error: "Failed to authenticate user"
         });
-      })
-      .finally(this.handleViewPopularPosts());
+      });
+      // .finally(this.handleViewPopularPosts());
   }
 
   checkAuthState() {
@@ -166,9 +165,13 @@ class App extends Component {
   }
 
   renderPreviewCards() {
-    return this.state.postPreviewData.map(postPreview => (
-      <PreviewCard previewData={postPreview} />
-    ));
+    if (this.state.postPreviewData && this.state.postPreviewData.length > 0) {
+      return this.state.postPreviewData.map(postPreview => (
+        <PreviewCard previewData={postPreview} />
+      ));
+    } else {
+      return (<span>There aren't any posts to show here.</span>);
+    }
   }
 
   _handleLogoutClick = () => {
@@ -184,19 +187,59 @@ class App extends Component {
     return (
       <Router>
         <Switch>
+
+          <Route exact path="/" render={props => ( <Redirect to="/popular" /> )} />
+
           <Route
             exact
-            path="/"
+            path="/popular"
             render={props => (
               <div className="container">
-                {this.state.hidePageContent}
+                {this.handleViewPopularPosts() ? '' : ''}
                 <Header
+                  {...props}
                   authenticated={this.state.authenticated}
                   user={this.state.user}
-                  handleViewPopularPosts={this.handleViewPopularPosts}
-                  handleViewRecentPosts={this.handleViewRecentPosts}
-                  handleViewMyPosts={this.handleViewMyPosts}
-                  displayOptions={this.state.displayOptions}
+                />
+                <div className={`pageContent ${this.state.hidePageContent ? 'hidden' : ''}`}>
+                  <TagManager />
+                  {this.state.authenticated ? '' : <Hero user={this.state.user} /> }
+                  <div className="cardBlock">{this.renderPreviewCards()}</div>
+                </div>
+              </div>
+            )}
+          />
+
+          <Route
+            exact
+            path="/recent"
+            render={props => (
+              <div className="container">
+                {this.handleViewRecentPosts() ? '' : ''}
+                <Header
+                  {...props}
+                  authenticated={this.state.authenticated}
+                  user={this.state.user}
+                />
+                <div className={`pageContent ${this.state.hidePageContent ? 'hidden' : ''}`}>
+                  <TagManager />
+                  {this.state.authenticated ? '' : <Hero user={this.state.user} /> }
+                  <div className="cardBlock">{this.renderPreviewCards()}</div>
+                </div>
+              </div>
+            )}
+          />
+
+          <Route
+            exact
+            path="/mine"
+            render={props => (
+              <div className="container">
+                {this.handleViewMyPosts() ? '' : ''}
+                <Header
+                  {...props}
+                  authenticated={this.state.authenticated}
+                  user={this.state.user}
                 />
                 <div className={`pageContent ${this.state.hidePageContent ? 'hidden' : ''}`}>
                   <TagManager />
@@ -211,6 +254,35 @@ class App extends Component {
             exact
             path="/login/local"
             render={props => <div>Login form here</div>}
+            render={props => (
+              <div className="container">
+                <Header
+                  {...props}
+                  authenticated={this.state.authenticated}
+                  user={this.state.user}
+                />
+                <div className="pageContent">
+                  <LoginForm {...props} />
+                </div>
+              </div>
+            )}
+          />
+
+          <Route
+            exact
+            path="/login/signup"
+            render={props => (
+              <div className="container">
+                <Header
+                  {...props}
+                  authenticated={this.state.authenticated}
+                  user={this.state.user}
+                />
+                <div className="pageContent">
+                  <SignUpForm {...props} />
+                </div>
+              </div>
+            )}
           />
 
           <Route
@@ -218,9 +290,9 @@ class App extends Component {
             render={props => (
               <div className="container">
                 <Header
+                  {...props}
                   authenticated={this.state.authenticated}
                   user={this.state.user}
-                  handleViewPopularPosts={this.handleViewPopularPosts}
                 />
                 <div className="pageContent">
                   <PostDetail {...props} />
@@ -234,6 +306,7 @@ class App extends Component {
             render={props => (
               <div className="container">
                 <Header
+                  {...props}
                   authenticated={this.state.authenticated}
                   user={this.state.user}
                 />
