@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Tag from "../Tag";
 import "./style.css";
+import { Link } from "react-router-dom";
 
 class TagManager extends Component {
   // TODO: add the mouseenter and mouseleave event hander to pass the "code highlight" events up to the parent PostDetail component
