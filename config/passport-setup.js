@@ -52,20 +52,20 @@ passport.use(
 );
 
 passport.use(new LocalStrategy(
-  {
-		usernameField: 'username' 
-	},
 	function(username, password, done) {
+    
 		User.findOne({ 'local.username': username }, (err, userMatch) => {
-			if (err) {
+			if (err) {        
 				return done(err)
 			}
-			if (!userMatch) {
+			if (!userMatch) {        
 				return done(null, false, { message: 'Incorrect username' })
 			}
 			if (!userMatch.checkPassword(password)) {
+        
 				return done(null, false, { message: 'Incorrect password' })
-			}
+      }
+      
 			return done(null, userMatch)
 		})
 	}

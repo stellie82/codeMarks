@@ -23,38 +23,37 @@ router.get("/login/failed", (req, res) => {
   });
 });
 
-// When logout, redirect to client
-// router.get("/logout", (req, res) => {
-//   req.logout();
-//   req.session = null;
-//   res.clearCookie('session');
-//   res.clearCookie('session.sig');
-//   res.redirect(CLIENT_HOME_PAGE_URL);
-// });
-
 router.get("/logout", (req, res) => {
   req.logout();
   req.session.destroy((err) => {
     res.clearCookie('connect.sid');   
     res.redirect(CLIENT_HOME_PAGE_URL);
-  });
-  
+  });  
 });
+
 
 // auth with twitter
 router.get("/github", passport.authenticate("github"));
 
-router.post("/login", passport.authenticate("local", {
-  successRedirect: CLIENT_HOME_PAGE_URL,
-  failureRedirect:CLIENT_HOME_PAGE_URL+"/login/local"
-})
-);
+router.post("/login", passport.authenticate("local"), function (req, res) {  
+   res.json("/login");
+});
 
-router.post('/signup', (req, res) => {
-  
-  const { username, email, password } = req.body
- 
-	// ADD VALIDATION
+router.get("/user_data", function (req, res) {  
+  if (!req.user) {     
+      res.json({});
+  }
+  else {     
+      res.json({          
+          username: req.user.local.username,
+          id: req.user._id
+      });
+  }
+});
+
+router.post('/signup', (req, res) => {  
+  const { username, email, password } = req.body 
+	
 	User.findOne({ 'local.username': username }, (err, userMatch) => {    
 		if (userMatch) {
 			return res.json({        
@@ -65,12 +64,13 @@ router.post('/signup', (req, res) => {
       'local.username': username,
       'local.email':email,
 			'local.password': password
-    })
-    console.log("New User",newUser);
-		newUser.save((err, savedUser) => {
-      console.log("Saved User",savedUser);
-			if (err) return res.json(err)
-			return res.json(savedUser)
+    })    
+		newUser.save((err, savedUser) => {      
+      if (err) return res.json(err)
+      else{        
+        return res.json(savedUser);
+      }
+			
 		})
 	})
 })

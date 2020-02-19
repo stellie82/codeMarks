@@ -25,7 +25,7 @@ class Header extends Component {
           { this.props.authenticated ? <Link to="/newpost" className="lime rounded-btn icon-btn-before newMark">New mark</Link> : '' }
         </div>
         {this.props.authenticated ?
-          (<span className="authStatus">Welcome back, {this.props.user.social.github.username}.
+          (<span className="authStatus">Welcome back, {this.props.user.local.username}.
               <a className="red rounded-btn icon-btn-after signOut" href="http://localhost:3001/auth/logout">Sign out</a>
            </span>)
             :

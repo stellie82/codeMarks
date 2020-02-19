@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import "./style.css";
+const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 
 class LoginForm extends Component {
 
@@ -48,7 +49,7 @@ class LoginForm extends Component {
         }
 
         let queryString = "http://localhost:3001/auth/login";
-        let userData = { username: this.state.username, password: this.state.password };
+
         let queryOptions = {
             method: "POST",
             credentials: "include",
@@ -58,13 +59,35 @@ class LoginForm extends Component {
                 "Access-Control-Allow-Credentials": true,
                 "Access-Control-Allow-Origin": "localhost:3001"
             },
-            body: userData
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password
+            })
         };
 
         fetch(queryString, queryOptions)
             .then(response => {
                 console.log(response);
+                let queryString = "http://localhost:3001/auth/user_data";
+
+                let queryOptions = {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Credentials": true,
+                        "Access-Control-Allow-Origin": "localhost:3001"
+                    },
+
+                };
+                fetch(queryString, queryOptions)
+                    .then(response => {
+                        window.location.replace(CLIENT_HOME_PAGE_URL);                       
+                    }).catch(this.setState({ error: response.error }));
+               
             })
+
     }
 
 
@@ -75,30 +98,30 @@ class LoginForm extends Component {
         return (
             <div>
                 <div className="loginWrap">
-                <h2 className="mainHeader">Login!</h2>
-                <form onSubmit={this.handleSubmit}>
-                    {
-                        this.state.error &&
-                        <h3 data-test="error" onClick={this.dismissError}>
-                            <button onClick={this.dismissError}>✖</button>
-                            {this.state.error}
-                        </h3>
-                    }
-                    <label className="fieldlabel">User Name</label>
-                    <input className="fieldInput" type="text" data-test="username" name="username" value={this.state.username} onChange={this.handleChange} />
+                    <h2 className="mainHeader">Login!</h2>
+                    <form onSubmit={this.handleSubmit}>
+                        {
+                            this.state.error &&
+                            <h3 data-test="error" onClick={this.dismissError}>
+                                <button onClick={this.dismissError}>✖</button>
+                                {this.state.error}
+                            </h3>
+                        }
+                        <label className="fieldlabel">User Name</label>
+                        <input className="fieldInput" type="text" data-test="username" name="username" value={this.state.username} onChange={this.handleChange} />
 
-                    <label className="fieldlabel">Password</label>
-                    <input className="fieldInput" type="password" data-test="password" name="pswd" value={this.state.password} onChange={this.handlePassChange} />
-
-
-                    <input className="submitButton" type="submit" value="Log In" data-test="submit" />
+                        <label className="fieldlabel">Password</label>
+                        <input className="fieldInput" type="password" data-test="password" name="pswd" value={this.state.password} onChange={this.handlePassChange} />
 
 
-                </form>
+                        <input className="submitButton" type="submit" value="Log In" data-test="submit" />
+
+
+                    </form>
                 </div>
                 <Link to="/user" id="forgot-password-link">Forgot Password?</Link>
 
-                <div class="signup-callout">
+                <div className="signup-callout">
                     Need an account?  <Link to="/login/signup" className="linksignUp">Sign up now!</Link>
                 </div>
             </div>
