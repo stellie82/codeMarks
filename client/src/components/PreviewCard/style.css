@@ -79,22 +79,6 @@
   margin: 1rem;
 }
 
-.previewCard span.postTag {
-  font-family: 'Quicksand';
-  text-transform: uppercase;
-  font-weight: 500;
-  padding: 0.2em 0.6em;
-  border-radius: 0.25em;
-  background: rgbA(40, 40, 40, 1.00);
-  letter-spacing: 0.1em;
-  box-shadow: 0 0 1em rgbA(0, 0, 0, 1.00),
-              0 0 1em rgbA(0, 0, 0, 1.00);
-}
-
-.previewCard span.postTag:hover {
-  border-bottom: 2px solid lime;
-}
-
 .previewCard span.postTag:not(:last-child) {
   margin-right: 0.5em;
 }
@@ -112,5 +96,9 @@
 }
 
 .previewCard span.description {
-  padding: 1rem;
+  padding: 0.5rem 1rem 1rem 1rem;
+}
+
+.previewCard span.stats {
+  padding: 0.5rem 1rem;
 }
