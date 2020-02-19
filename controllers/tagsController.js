@@ -11,7 +11,6 @@ module.exports = {
   },
 
   findAllByQuery: function(req, res) {
-    console.log(req.body);
     db.Tag.find({ alias: { $all: req.body } })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));

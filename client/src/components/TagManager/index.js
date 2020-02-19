@@ -80,7 +80,7 @@ class TagManager extends Component {
             type="text"
             id="tagSearch"
             className="tagSearch"
-            autocomplete="off"
+            autoComplete="off"
             placeholder="Search for tags..."
             ref={this.tagSearchInput}
             onChange={this.handleSearchInput}

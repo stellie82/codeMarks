@@ -44,6 +44,10 @@ div.commentsReverser {
   flex-direction: column-reverse;
 }
 
+span.noComments {
+  margin-bottom: 0.5em;
+}
+
 span.marginLabel {
   display: block;
   text-transform: uppercase;
