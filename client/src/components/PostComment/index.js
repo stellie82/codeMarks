@@ -9,6 +9,7 @@ class PostComment extends Component {
   componentDidMount() {}
 
   render() {
+    console.log(this.props.commentData);
     return (
       this.props.commentData.author ?
         (<div className="commentBox">

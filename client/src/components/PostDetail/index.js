@@ -85,7 +85,7 @@ class PostDetail extends Component {
       } else {
         // this new comment is the first one, so set the array to it
         this.setState({
-          postComments: [commentData]
+          postComments: [commentData[0]]
         });
       }
     }
@@ -113,7 +113,7 @@ class PostDetail extends Component {
         </div>
       );
     } else {
-      return (<span>Sign in to post a new comment.</span>);
+      return (<span className="noComments">Sign in to post a new comment.</span>);
     }
   }
 
