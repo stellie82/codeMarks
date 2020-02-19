@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import io from "socket.io-client";
 import "./style.css";
 
 class PostComposer extends Component {

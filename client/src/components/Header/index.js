@@ -6,10 +6,6 @@ class Header extends Component {
 
   state = {};
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
 
   }

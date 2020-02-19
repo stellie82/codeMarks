@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import PostDetail from "./components/PostDetail";
@@ -9,7 +9,6 @@ import PreviewCard from "./components/PreviewCard";
 import TagManager from "./components/TagManager";
 import SignUpForm from "./components/SignUpForm";
 import LoginForm from "./components/LoginForm";
-import Tag from "./components/Tag";
 import "./style.css";
 
 class App extends Component {
@@ -149,15 +148,9 @@ class App extends Component {
     fetch(queryString, queryOptions)
       .then(response => {
         switch (response.status) {
-          case 200:
-            return response.json();
-            break;
-          case 401:
-            throw new Error(authFailureString);
-            break;
-          default:
-            throw new Error(authAbnormalString);
-            break;
+          case 200: return response.json();
+          case 401: throw new Error(authFailureString);
+          default: throw new Error(authAbnormalString);
         }
       })
       .then(userInfo => this.setState({ user: userInfo }))
@@ -167,7 +160,7 @@ class App extends Component {
   renderPreviewCards() {
     if (this.state.postPreviewData && this.state.postPreviewData.length > 0) {
       return this.state.postPreviewData.map(postPreview => (
-        <PreviewCard previewData={postPreview} />
+        <PreviewCard previewData={postPreview} key={postPreview._id} />
       ));
     } else {
       return (<span>There aren't any posts to show here.</span>);
@@ -176,7 +169,6 @@ class App extends Component {
 
   _handleLogoutClick = () => {
     window.open("http://localhost:3001/auth/logout", "_self");
-    //this.props.handleNotAuthenticated();
   };
 
   _handleSignInClick = () => {
@@ -295,7 +287,7 @@ class App extends Component {
                   user={this.state.user}
                 />
                 <div className="pageContent">
-                  <PostDetail {...props} />
+                  <PostDetail user={this.state.user} {...props} />
                 </div>
               </div>
             )}

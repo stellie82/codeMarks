@@ -8,17 +8,13 @@ import "./style.css";
 class PreviewCard extends Component {
   state = {};
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     Prism.highlightAll();
   }
 
   renderTagList() {
     return this.props.previewData.tags.map(tag => (
-      <Tag tagData={tag} />
+      <Tag tagData={tag} key={tag._id} />
     ));
   }
 
