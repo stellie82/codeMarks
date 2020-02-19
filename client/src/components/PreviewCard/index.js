@@ -29,7 +29,7 @@ class PreviewCard extends Component {
         <div className="details">
           <span className="title">{this.props.previewData.title}</span>
           <span className="stats">
-            🧍&nbsp;&nbsp;{this.props.previewData.author.social ? this.props.previewData.author.social.github.username : ''}&nbsp;&nbsp;
+            🧍&nbsp;&nbsp;{this.props.previewData.author ? (this.props.previewData.author.social ? this.props.previewData.author.social.github.username : this.props.previewData.author.local.username) : '[deleted]'}&nbsp;&nbsp;
             💬&nbsp;&nbsp;{this.props.previewData.comments ? this.props.previewData.comments.length : 0}&nbsp;&nbsp;
             ✔️&nbsp;&nbsp;{this.props.previewData.voteCount || 0}
           </span>

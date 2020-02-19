@@ -56,13 +56,12 @@ app.use("/auth", authRoutes);
 
 // Mongo DB connection
 var MONGODB_URI = process.env.CONNECTION_STRING;
+
 mongoose.connect(MONGODB_URI, {
   dbName: "codeMarks",
   useUnifiedTopology: true,
   useNewUrlParser: true
-})
-.then(() => console.log("MongoDB Atlas connected"))
-.catch(err => console.log(err));
+}).catch(err => console.log(err));
 
 const authCheck = (req, res, next) => {
   if (!req.user) {

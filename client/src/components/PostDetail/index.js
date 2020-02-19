@@ -133,7 +133,7 @@ class PostDetail extends Component {
         <div className="postHeader">
           <span className="postAuthor">
             <span className="marginLabel">Author</span>
-            {this.state.postDetails.author ? (this.state.postDetails.author.social ? this.state.postDetails.author.social.github.username : this.state.postDetails.author.local.username) : ''}
+            {this.state.postDetails.author ? (this.state.postDetails.author.social ? this.state.postDetails.author.social.github.username : this.state.postDetails.author.local.username) : '[deleted]'}
           </span><br/>
           <span className="postTitle">
             <span className="marginLabel">Title</span>
