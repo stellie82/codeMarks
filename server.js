@@ -9,6 +9,7 @@ const passportSetup = require("./config/passport-setup");
 const session = require("express-session");
 const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
+const path = require("path");
 const db = require("./models");
 require("dotenv").config();
 
@@ -20,7 +21,7 @@ const server = require('http').createServer(app);
 const io = require("socket.io")(server);
 
 // Configure middleware
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 // Serve up static assets
@@ -54,11 +55,14 @@ app.use(routes);
 app.use("/auth", authRoutes);
 
 // Mongo DB connection
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/codeMarks";
+var MONGODB_URI = process.env.CONNECTION_STRING;
 mongoose.connect(MONGODB_URI, {
+  dbName: "codeMarks",
   useUnifiedTopology: true,
   useNewUrlParser: true
-});
+})
+.then(() => console.log("MongoDB Atlas connected"))
+.catch(err => console.log(err));
 
 const authCheck = (req, res, next) => {
   if (!req.user) {
