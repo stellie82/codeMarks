@@ -22,11 +22,15 @@ class PostDetail extends Component {
   }
 
   componentDidMount() {
-    this.loadPost(); //.then(this.loadComments());
+    this.loadPost().then(this.loadComments());
   }
 
   componentDidUpdate() {
     Prism.highlightAll();
+  }
+
+  componentWillUnmount() {
+    this.socket.disconnect();
   }
 
   loadPost() {
@@ -55,7 +59,10 @@ class PostDetail extends Component {
   }
 
   loadComments() {
-    this.socket = io.connect({ query: { postKey: this.state.postKey } });
+    this.socket = io.connect({
+      query: { postKey: this.state.postKey },
+      rejectUnauthorized: false
+    });
     this.socket.on('connection', (socket) => { this.setState({ commentsAreRealtime: true }); });
     this.socket.on('disconnect', (socket) => { this.setState({ commentsAreRealtime: false }); });
     this.socket.on('existingComments', (comments) => { this.setState({ postComments: comments }); });

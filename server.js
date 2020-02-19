@@ -11,27 +11,21 @@ const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
 require("dotenv").config();
 
-
 // Setup Express app
-const app = express();
 const PORT = process.env.PORT || 3001;
+const app = express();
+
+const server = require('http').createServer(app);
+const io = require("socket.io")(server);
 
 // Configure middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client", "build")));
 }
-
-// const COOKIE_KEY = "codemarks";
-// app.use(
-//   cookieSession({
-//     name: "session",
-//     keys: [COOKIE_KEY],
-//     maxAge: 24 * 60 * 60 * 100
-//   })
-// );
 
 app.use(
 	session({
@@ -89,6 +83,21 @@ app.get("/", authCheck, (req, res) => {
 });
 
 // Start API server
-app.listen(PORT, function() {
+server.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+});
+
+io.on('connection', (socket) => {
+  let postKey = socket.handshake.query.postKey;
+  socket.join(postKey);
+  socket.postKey = postKey;
+  socket.emit('existingComments', []);  // TODO: send comments array here
+  socket.on('newCommentRequest', (commentData) => {
+    // TODO: save the comment via Mongoose here, and then broadcast it to the room:
+    io.in(socket.postKey).emit('newComment', commentData);
+  });
+});
+
+io.on('disconnect', (socket) => {
+  console.log(socket);
 });
