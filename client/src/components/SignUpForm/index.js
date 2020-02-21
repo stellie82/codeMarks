@@ -1,3 +1,4 @@
+import keys from "../../keys_client.js";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./style.css";
@@ -67,7 +68,7 @@ class SignUpForm extends Component {
             return this.setState({ error: 'Passwords are not matched' });
         }
 
-        let queryString = "http://localhost:3001/auth/signup";
+        let queryString = keys.APP_DOMAIN+"/auth/signup";
         let queryOptions = {
             method: "POST",
             credentials: "include",
@@ -75,7 +76,7 @@ class SignUpForm extends Component {
                 Accept: "application/json",
                 'Content-Type': "application/json",
                 "Access-Control-Allow-Credentials": true,
-                "Access-Control-Allow-Origin": "localhost:3001"
+                "Access-Control-Allow-Origin": ["localhost:3001","codemarks.com"]
             },
             body: JSON.stringify({
                 username: this.state.username,

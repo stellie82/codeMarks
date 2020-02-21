@@ -1,3 +1,4 @@
+import keys from "../../keys_client.js";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Prism from "prismjs";
@@ -95,7 +96,7 @@ export default function dijkstra(graph, startVertex) {
           ''
             :
           (<span>
-            <a className="github login" href="http://localhost:3001/auth/github"><i className="devicon-github-plain colored"></i>Sign in with GitHub</a>
+            <a className="github login" href={`${keys.APP_DOMAIN}/auth/github`}><i className="devicon-github-plain colored"></i>Sign in with GitHub</a>
             <Link className="local login" to="/login/local">...or sign in with a username and password instead</Link>
           </span>)
         }

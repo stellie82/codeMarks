@@ -1,7 +1,8 @@
+import keys from "../../keys_client.js";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./style.css";
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
+
 
 class LoginForm extends Component {
 
@@ -47,7 +48,7 @@ class LoginForm extends Component {
             return this.setState({ error: 'Password is required' });
         }
 
-        let queryString = "http://localhost:3001/auth/login";
+        let queryString = keys.APP_DOMAIN+"/auth/login";
 
         let queryOptions = {
             method: "POST",
@@ -56,7 +57,7 @@ class LoginForm extends Component {
                 Accept: "application/json",
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Credentials": true,
-                "Access-Control-Allow-Origin": "localhost:3001"
+                "Access-Control-Allow-Origin": ["localhost:3001","codemarks.com"]
             },
             body: JSON.stringify({
                 username: this.state.username,
@@ -67,7 +68,7 @@ class LoginForm extends Component {
         fetch(queryString, queryOptions)
             .then(response => {
                 console.log(response);
-                let queryString = "http://localhost:3001/auth/user_data";
+                let queryString = keys.APP_DOMAIN+"/auth/user_data";
 
                 let queryOptions = {
                     method: "GET",
@@ -82,7 +83,7 @@ class LoginForm extends Component {
                 };
                 fetch(queryString, queryOptions)
                     .then(response => {
-                        window.location.replace(CLIENT_HOME_PAGE_URL);
+                        window.location.replace(keys.CLIENT_HOME_PAGE_URL);
                     }).catch(this.setState({ error: response.error }));
 
             })
