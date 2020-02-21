@@ -10,32 +10,36 @@ const session = require("express-session");
 const routes = require("./routes");
 const authRoutes = require("./routes/auth-routes");
 const path = require("path");
+const db = require("./models");
 require("dotenv").config();
 
 // Setup Express app
-const app = express();
 const PORT = process.env.PORT || 3001;
+const app = express();
+
+const server = require('http').createServer(app);
+const io = require("socket.io")(server);
 
 // Configure middleware
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+
 // Serve up static assets
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client", "build")));
 }
 
-const COOKIE_KEY = "codemarks";
 app.use(
-  cookieSession({
-    name: "session",
-    keys: [COOKIE_KEY],
-    maxAge: 24 * 60 * 60 * 100
-  })
-);
+	session({
+		secret: 'codemarks',
+		resave: false,
+		saveUninitialized: false
+	})
+)
 
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(passport.session({ resave: false }));
+app.use(passport.session());
 
 // set up cors to allow us to accept requests from our client
 app.use(
@@ -51,11 +55,13 @@ app.use(routes);
 app.use("/auth", authRoutes);
 
 // Mongo DB connection
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/codeMarks";
+var MONGODB_URI = process.env.CONNECTION_STRING;
+
 mongoose.connect(MONGODB_URI, {
+  dbName: "codeMarks",
   useUnifiedTopology: true,
   useNewUrlParser: true
-});
+}).catch(err => console.log(err));
 
 const authCheck = (req, res, next) => {
   if (!req.user) {
@@ -81,6 +87,46 @@ app.get("/", authCheck, (req, res) => {
 });
 
 // Start API server
-app.listen(PORT, function() {
+server.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+});
+
+io.on('connection', (socket) => {
+  let postKey = socket.handshake.query.postKey;
+  let userKey = socket.handshake.query.userKey;
+  socket.join(postKey);
+  socket.postKey = postKey;
+  socket.userKey = userKey;
+  console.log('socket opened for ' + (socket.userKey ? ('user ' + socket.userKey) : 'guest'));
+  db.Comment
+    .find({ post_id: socket.postKey })
+    .populate('author')
+    .sort({ date: -1 })
+    .then(dbModel => {
+      console.log(dbModel);
+      socket.emit('existingComments', JSON.stringify(dbModel));
+    })
+    .catch(err => console.log(err));
+  socket.on('newCommentRequest', (commentData) => {
+    if (!socket.userKey) return;
+    commentData.post_id = socket.postKey;
+    commentData.author = socket.userKey;
+    db.Comment
+      .create(commentData)
+      .then(dbModel => {
+        // save to post's comments array here
+        db.Comment
+          .find({ _id: dbModel._id })
+          .populate('author')
+          .then(dbModel2 => {
+            console.log(dbModel2);
+            io.in(socket.postKey).emit('newComment', JSON.stringify(dbModel2));
+          })
+      })
+      .catch(err => { console.log(err); });
+  });
+  socket.on('disconnect', (socket) => {
+    // TODO: Is there anything we need to do here?
+    console.log('socket closed for ' + (socket.userKey ? ('user ' + socket.userKey) : 'guest'));
+  });
 });

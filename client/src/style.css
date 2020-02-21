@@ -2,6 +2,10 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Bebas+Neue|Quicksand:300,400,500,600,700|Rubik:300,400,500,700&display=swap");
 
+html {
+  font-size: 0.9em;
+}
+
 body {
   background-image: radial-gradient(
     at top left,
@@ -15,7 +19,6 @@ body {
 #root {
   color: white;
   font-family: "Source Sans Pro";
-  min-height: 100vh;
 }
 
 a {
@@ -24,18 +27,27 @@ a {
 }
 
 .container {
-  min-height: 100vh;
+  min-height: calc(100vh - 2em);
   display: flex;
   flex-direction: column;
   padding: 1rem;
 }
 
 .pageContent {
+  position: relative;
   display: flex;
-  flex-direction: row;
-  /* margin-left: 18em; */
+  flex-direction: column;
+  margin-left: 18em;
   flex: 1;
   padding: 0.5rem;
+}
+
+.hidden.pageContent .previewCard {
+  transition: opacity 0.2s ease-in-out 0s;
+}
+
+.hidden.pageContent .previewCard {
+  opacity: 0;
 }
 
 .pageContent > div {

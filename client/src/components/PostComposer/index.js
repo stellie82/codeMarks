@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import io from "socket.io-client";
+import { Link, Redirect } from "react-router-dom";
 import "./style.css";
 
 class PostComposer extends Component {
@@ -31,8 +30,6 @@ class PostComposer extends Component {
       description: this.state.description,
       content: btoa(this.state.content)
     }
-    console.clear();
-    console.log(postData);
     let queryString = "http://localhost:3001/api/posts";
     let queryOptions = {
       method: "POST",
@@ -46,18 +43,24 @@ class PostComposer extends Component {
       body: JSON.stringify(postData)
     };
     fetch(queryString, queryOptions)
-      .then(response => {
-        console.log(response);
-      })
-    // TODO: call "publishPost" express route here, then using the returned postKey, call:
-    // this.props.history.push('/viewpost?key=KEY_HERE')
+      .then(response => response.json())
+      .then(json => {
+        let newLocation = '/viewpost/' + json._id;
+        this.setState({ redirect: newLocation });
+        console.log(this.state);
+      });
+  }
+
+  renderRedirect = () => {
+    if (this.state.redirect) { return (<Redirect to={this.state.redirect} />); }
+    else { return ''; }
   }
 
   render() {
     return (
       <div className="compositionBox">
         <div className="formStyle postAuthorName">
-          <span className="formStyleInput postAuthorName">{this.props.user.social ? this.props.user.social.github.username : ''}</span>
+          <span className="formStyleInput postAuthorName">{this.props.user.social ? this.props.user.social.github.username : this.props.user.local.username}</span>
         </div>
         <div className="formStyle postTitleBox">
           <input type="text" name="postTitleBox" className="formStyleInput postTitleBox" ref={this.postTitleInput}  onChange={this.handleTitleChange}></input>
@@ -72,6 +75,7 @@ class PostComposer extends Component {
           <Link to="/" className="red rounded-btn icon-btn-before cancelPost">Cancel</Link>
           <span className="lime rounded-btn icon-btn-before publishPost" onClick={(e) => this.tryPublishPost(e)}>Publish your mark</span>
         </div>
+        { this.renderRedirect() }
       </div>
     );
   }

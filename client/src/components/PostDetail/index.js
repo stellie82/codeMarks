@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
 import Prism from "prismjs";
-import "./prism.css";
+import PostComment from "../PostComment";
 import "./style.css";
 import "./prism-dark.css";
 
@@ -23,7 +23,15 @@ class PostDetail extends Component {
   }
 
   componentDidMount() {
-    this.loadPost(); //.then(this.loadComments());
+    this.loadPost().then(this.loadComments());
+  }
+
+  componentDidUpdate() {
+    Prism.highlightAll();
+  }
+
+  componentWillUnmount() {
+    this.socket.disconnect(true);
   }
 
   loadPost() {
@@ -38,7 +46,8 @@ class PostDetail extends Component {
         fetch(queryString, queryOptions).then(response => {
           return response.json()
         }).then(data => {
-          data.content = Prism.highlight(atob(data.content), Prism.languages.javascript, 'javascript');
+          // data.content = Prism.highlight(atob(data.content), Prism.languages.javascript, 'javascript');
+          data.content = atob(data.content);
           this.setState({
             postDetails: data,
             postHasLoaded: true
@@ -51,34 +60,40 @@ class PostDetail extends Component {
   }
 
   loadComments() {
-    this.socket = io.connect({ query: { postKey: this.state.postKey } });
+    this.socket = io.connect({
+      query: {
+        postKey: this.state.postKey,
+        userKey: this.props.user._id
+      },
+      rejectUnauthorized: false
+    });
     this.socket.on('connection', (socket) => { this.setState({ commentsAreRealtime: true }); });
     this.socket.on('disconnect', (socket) => { this.setState({ commentsAreRealtime: false }); });
-    this.socket.on('existingComments', (comments) => { this.setState({ postComments: comments }); });
-    this.socket.on('newComment', this.handleInboundNewComment);
+    this.socket.on('existingComments', (comments) => { this.setState({ postComments: JSON.parse(comments) }); });
+    this.socket.on('newComment', (commentData) => {
+      this.handleInboundNewComment(JSON.parse(commentData));
+    });
   }
 
-  handleInboundNewComment(commentData) {
+  handleInboundNewComment = (commentData) => {
     if (this.state.postHasLoaded) {
       if (this.state.postComments.length > 0) {
         // append this comment to the existing array
         this.setState((existingState) => ({
-          postComments: [...existingState.postComments, commentData]
+          postComments: [...existingState.postComments, commentData[0]]
         }));
       } else {
         // this new comment is the first one, so set the array to it
         this.setState({
-          postComments: [commentData]
+          postComments: [commentData[0]]
         });
       }
     }
   }
 
-  postNewComment(commentText) {
-    // TODO: this function should be called by the "submit" button after the user has typed in a new comment
+  postNewComment = () => {
     let commentData = {
-      author: this.props.authUser.id,
-      text: commentText
+      content: this.state.commentDraft
     };
     if (this.state.userHighlightStart && this.state.userHighlightEnd) {
       commentData.highlightStart = this.state.userHighlightStart;
@@ -87,22 +102,61 @@ class PostDetail extends Component {
     this.socket.emit('newCommentRequest', commentData);
   }
 
+  handleCommentDraftChange = (event) => { this.setState({ commentDraft: event.target.value }); }
+
+  renderCommentCompositionBox() {
+    if (this.props.user) {
+      return (
+        <div className="commentComposition">
+          <input type="text" onChange={this.handleCommentDraftChange} />
+          <span className="btn-rounded" onClick={this.postNewComment} >Publish comment</span>
+        </div>
+      );
+    } else {
+      return (<span className="noComments">Sign in to post a new comment.</span>);
+    }
+  }
+
+  renderComments() {
+    if (this.state.postComments) {
+      return this.state.postComments.map(comment => (
+        <PostComment commentData={comment} key={comment._id} />
+      ));
+    } else {
+      return (<span>This post has no comments.</span>);
+    }
+  }
+
   render() {
     return (
       <div>
         <div className="postHeader">
-          <span className="postAuthor">Author<br/>{this.state.postDetails.author}</span><br/>
-          <span className="postTitle">Title<br/>{this.state.postDetails.title}</span><br/>
-          <span className="postDescription">Description<br/>{this.state.postDetails.description}</span><br/>
-          <pre>
-            <code className="language-javascript" dangerouslySetInnerHTML={{ __html: this.state.postDetails.content }} ></code>
-          </pre>
+          <span className="postAuthor">
+            <span className="marginLabel">Author</span>
+            {this.state.postDetails.author ? (this.state.postDetails.author.social ? this.state.postDetails.author.social.github.username : this.state.postDetails.author.local.username) : '[deleted]'}
+          </span><br/>
+          <span className="postTitle">
+            <span className="marginLabel">Title</span>
+            {this.state.postDetails.title}
+          </span><br/>
+          <span className="postDescription">
+            <span className="marginLabel">Description</span>
+            {this.state.postDetails.description}
+          </span><br/>
+          <span className="marginLabel">JavaScript Code</span>
         </div>
-        {/*
-        {JSON.stringify(this.state.postDetails)}
-        // TODO: render the code container on the left, with title-desc-author above
-        // TODO: render the comments on the right, with realtime status above and text input for new comments below
-        */}
+        <div className="postContent">
+          <pre className="postCode">
+            <code className="language-javascript">{this.state.postDetails.content}</code>
+          </pre>
+          <div className="postComments">
+            <span className="marginLabel">Comments</span>
+            {this.renderCommentCompositionBox()}
+            <div className="commentsReverser">
+              {this.renderComments()}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
