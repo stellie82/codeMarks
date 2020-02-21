@@ -1,3 +1,4 @@
+import keys from "../../keys_client.js";
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import "./style.css";
@@ -30,7 +31,7 @@ class PostComposer extends Component {
       description: this.state.description,
       content: btoa(this.state.content)
     }
-    let queryString = "http://localhost:3001/api/posts";
+    let queryString = keys.APP_DOMAIN+"/api/posts";
     let queryOptions = {
       method: "POST",
       credentials: "include",
@@ -38,7 +39,7 @@ class PostComposer extends Component {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Credentials": true,
-        "Access-Control-Allow-Origin": "localhost:3001"
+        "Access-Control-Allow-Origin": ["localhost:3001","codemarks.com"]
       },
       body: JSON.stringify(postData)
     };

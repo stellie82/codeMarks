@@ -1,5 +1,6 @@
 // Required modules
 const express = require("express");
+const keys=require("./keys");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -44,7 +45,7 @@ app.use(passport.session());
 // set up cors to allow us to accept requests from our client
 app.use(
   cors({
-    origin: "http://localhost:3000", // allow to server to accept request from different origin
+    origin: ["http://localhost:3000","https://codemarks-app.herokuapp.com/"],// allow to server to accept request from different origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true // allow session cookie from browser to pass through
   })
