@@ -61,7 +61,14 @@ mongoose.connect(MONGODB_URI, {
   dbName: "codeMarks",
   useUnifiedTopology: true,
   useNewUrlParser: true
-}).catch(err => console.log(err));
+}, (err) => {
+  if (err) {
+    console.log('Failed to connect to MongoDB Atlas');
+    console.log(err);
+  } else {
+    console.log('Successfully connected to MongoDB Atlas');
+  }
+});
 
 const authCheck = (req, res, next) => {
   if (!req.user) {
