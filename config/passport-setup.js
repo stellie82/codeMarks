@@ -30,7 +30,6 @@ passport.use(
     {
       clientID: keys.CLIENT_ID,
       clientSecret: keys.SECRET_ID,
-      callbackURL: "/auth/github/redirect"
     },
     async (token, tokenSecret, profile, done) => {
       // find current user in UserModel
