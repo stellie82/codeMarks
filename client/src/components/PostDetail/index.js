@@ -1,3 +1,4 @@
+import keys from "../../keys_client.js";
 import React, { Component } from "react";
 import io from "socket.io-client";
 import Prism from "prismjs";
@@ -37,7 +38,7 @@ class PostDetail extends Component {
   loadPost() {
     return new Promise((resolve, reject) => {
       if (this.state.postKey) {
-        let queryString = 'http://localhost:3001/api/posts/' + this.state.postKey;
+        let queryString = keys.APP_DOMAIN+'/api/posts/' + this.state.postKey;
         let queryOptions = {
           method: "GET",
           credentials: "include",

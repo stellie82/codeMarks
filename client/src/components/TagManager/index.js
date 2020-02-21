@@ -1,3 +1,4 @@
+import keys from "../../keys_client.js";
 import React, { Component } from "react";
 import Tag from "../Tag";
 import "./style.css";
@@ -33,7 +34,7 @@ class TagManager extends Component {
   }
 
   loadTags = () => {
-    fetch("http://localhost:3001/api/tags/popular", {
+    fetch(keys.APP_DOMAIN+"/api/tags/popular", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -51,7 +52,7 @@ class TagManager extends Component {
   };
 
   searchForTags = () => {
-    fetch("http://localhost:3001/api/tags/searchTag", {
+    fetch(keys.APP_DOMAIN+"/api/tags/searchTag", {
       method: "POST",
       credentials: "include",
       headers: {

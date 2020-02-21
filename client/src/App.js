@@ -1,3 +1,4 @@
+import keys from "./keys_client.js";
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Header from "./components/Header";
@@ -39,7 +40,7 @@ class App extends Component {
   }
 
   handleViewRecentPosts = async () => {
-    fetch("http://localhost:3001/api/posts/recent", {
+    fetch(keys.APP_DOMAIN+"/api/posts/recent", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -61,7 +62,7 @@ class App extends Component {
   }
 
   handleViewPopularPosts = async () => {
-    fetch("http://localhost:3001/api/posts/popular", {
+    fetch(keys.APP_DOMAIN+"/api/posts/popular", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -83,7 +84,7 @@ class App extends Component {
   };
 
   handleViewMyPosts = async () => {
-    fetch("http://localhost:3001/api/posts/mine", {
+    fetch(keys.APP_DOMAIN+"/api/posts/mine", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -105,7 +106,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    fetch("http://localhost:3001/auth/checkAuth", {
+    fetch(keys.APP_DOMAIN+"/auth/checkAuth", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -168,11 +169,11 @@ class App extends Component {
   }
 
   _handleLogoutClick = () => {
-    window.open("http://localhost:3001/auth/logout", "_self");
+    window.open(keys.APP_DOMAIN+"/auth/logout", "_self");
   };
 
   _handleSignInClick = () => {
-    window.open("http://localhost:3001/auth/github", "_self");
+    window.open(keys.APP_DOMAIN+"/auth/github", "_self");
   };
 
   render() {

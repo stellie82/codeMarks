@@ -1,6 +1,6 @@
+const keys=require("../keys");
 const router = require("express").Router();
 const passport = require("passport");
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 const User = require('../models/user');
 
 // when login is successful, retrieve user info
@@ -80,7 +80,7 @@ router.post('/signup', (req, res) => {
 router.get(
   "/github/redirect",
   passport.authenticate("github", {
-    successRedirect: CLIENT_HOME_PAGE_URL,
+    successRedirect: keys.CLIENT_HOME_PAGE_URL,
     failureRedirect: "/auth/login/failed"
   })
 );

@@ -1,10 +1,13 @@
+import keys from "../../keys_client.js";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./style.css"
 
 class Header extends Component {
 
-  state = {};
+  state = {
+    
+  };
 
   componentDidMount() {
 
@@ -28,7 +31,7 @@ class Header extends Component {
         </div>
         {this.props.authenticated ?
           (<span className="authStatus">Welcome back, {this.props.user.social ? this.props.user.social.github.username : this.props.user.local.username}.
-              <a className="red rounded-btn icon-btn-before signOut" href="http://localhost:3001/auth/logout">Sign out</a>
+              <a className="red rounded-btn icon-btn-before signOut" href={`${keys.APP_DOMAIN}/auth/logout`}>Sign out</a>
            </span>)
             :
           (<span className="authStatus"></span>)

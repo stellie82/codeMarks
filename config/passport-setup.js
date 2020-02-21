@@ -1,8 +1,12 @@
+const keys=require("../keys");
 const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/user");
 require("dotenv").config();
+
+console.log("ClientID",keys.CLIENT_ID);
+console.log("ClientSecret",keys.SECRET_ID);
 
 // serialize the user.id to save in the cookie session
 // so the browser will remember the user when login
@@ -24,8 +28,8 @@ passport.deserializeUser((id, done) => {
 passport.use(
   new GitHubStrategy(
     {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
+      clientID: keys.CLIENT_ID,
+      clientSecret: keys.SECRET_ID,
       callbackURL: "/auth/github/redirect"
     },
     async (token, tokenSecret, profile, done) => {
