@@ -68,6 +68,18 @@ mongoose.connect(MONGODB_URI, {
   } else {
     console.log('Successfully connected to MongoDB Atlas');
   }
+  mongoose.connection.db.listCollections().toArray(function(err, names) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('The following collections are visible:');
+      let j = 1;
+      names.forEach((e, i, a) => {
+        console.log(j + ')  ' + e.name);
+        j++;
+      } );
+    }
+  })
 });
 
 const authCheck = (req, res, next) => {
