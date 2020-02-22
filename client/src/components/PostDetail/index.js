@@ -110,7 +110,7 @@ class PostDetail extends Component {
       return (
         <div className="commentComposition">
           <input type="text" onChange={this.handleCommentDraftChange} />
-          <span className="btn-rounded" onClick={this.postNewComment} >Publish comment</span>
+          <span className="rounded-btn" onClick={this.postNewComment} >Publish comment</span>
         </div>
       );
     } else {
