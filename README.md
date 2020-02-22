@@ -31,4 +31,6 @@ CODEMARKS provides a more visually friendly interface for sharing code snippets.
 
 **View Project App**
 
+- https://codemarks-app.herokuapp.com/
 - https://github.com/stellie82/codeMarks
+- Google Slides Presentation: https://docs.google.com/presentation/d/1GtH9pnPA3OQA98P-bx6xdPMplHwMkEMKqMrKc1ipDnQ/edit?usp=sharing
