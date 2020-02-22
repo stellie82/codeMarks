@@ -96,8 +96,9 @@ export default function dijkstra(graph, startVertex) {
           ''
             :
           (<span>
-            <a className="github login" href={`${keys.APP_DOMAIN}/auth/github`}><i className="devicon-github-plain colored"></i>Sign in with GitHub</a>
-            <Link className="local login" to="/login/local">...or sign in with a username and password instead</Link>
+            {/*}<a className="github login" href={`${keys.APP_DOMAIN}/auth/github`}><i className="devicon-github-plain colored"></i>Sign in with GitHub</a>*/}
+            <Link className="github login" to="/login/local">Sign in</Link>
+            {/*<Link className="local login" to="/login/local">...or sign in with a username and password instead</Link>*/}
           </span>)
         }
       </div>

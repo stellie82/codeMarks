@@ -37,7 +37,11 @@ const postSchema = new Schema({
       required: true
     }
   ],
-
+  commentCount: {
+    type: Number,
+    default: 0,
+    required: true
+  },
   voteCount: {
     type: Number,
     default: 0,

@@ -16,7 +16,9 @@
 }
 
 .tagManager .filterTags {
-
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .tagManager .tagSearchContainer {
@@ -46,7 +48,8 @@
 }
 
 .tagManager .popularTags span.postTag:not(:last-child),
-.tagManager .searchedTags span.postTag:not(:last-child) {
+.tagManager .searchedTags span.postTag:not(:last-child),
+.tagManager .filterTags span.postTag:not(:last-child) {
   margin-right: 0.5em;
   margin-bottom: 0.5em;
 }

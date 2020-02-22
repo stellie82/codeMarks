@@ -9,15 +9,15 @@ router
 
 router
   .route("/popular")
-  .get(postsController.popularPosts);
+  .post(postsController.popularPosts);
 
 router
   .route("/recent")
-  .get(postsController.recentPosts);
+  .post(postsController.recentPosts);
 
 router
   .route("/mine")
-  .get(postsController.myPosts);
+  .post(postsController.myPosts);
 
 // Matches with "/api/posts/:id"
 router
