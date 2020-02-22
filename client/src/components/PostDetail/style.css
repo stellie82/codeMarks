@@ -58,3 +58,19 @@ span.marginLabel {
   color: lime;
   margin-bottom: 0.5em;
 }
+
+div.commentComposition {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+
+div.commentComposition input {
+  background: rgbA(20, 20, 20, 1.00);
+  border-radius: 0.5em;
+  outline: none;
+  border: none;
+  padding: 1em;
+  color: white;
+  margin-bottom: 0.5em;
+}
