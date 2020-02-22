@@ -27,10 +27,9 @@ router.get("/logout", (req, res) => {
   req.logout();
   req.session.destroy((err) => {
     res.clearCookie('connect.sid');
-    res.redirect(CLIENT_HOME_PAGE_URL);
+    res.redirect(keys.CLIENT_HOME_PAGE_URL);
   });
 });
-
 
 // auth with twitter
 router.get("/github", passport.authenticate("github"));
