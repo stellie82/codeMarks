@@ -44,10 +44,10 @@ module.exports = {
 
   //find top posts in past 10 days
   popularPosts: function(req, res) {
-    if (req.body.tagFilters) {
+    if (req.body.length > 0) {
       //  db.Post.find(req.query)
       db.Post
-        .find({ tags: { $all: req.body.tagfilters } })
+        .find({ tags: { $all: req.body } })
         .populate('author')
         .populate('tags')
         .sort({ voteCount: -1 })
@@ -67,12 +67,12 @@ module.exports = {
   },
   //recent posts
   recentPosts: function(req, res) {
-    if (req.body.tagFilters) {
+    if (req.body.length > 0) {
       //  db.Post.find(req.query)
       startDate = new Date(); // Current date
       startDate.setDate(startDate.getDate() - 10);
       db.Post
-        .find({ created_date: { $gte: startDate } })
+        .find({ tags: { $all: req.body } })
         .populate('author')
         .populate('tags')
         .sort({ date: -1 })
@@ -92,14 +92,8 @@ module.exports = {
   },
 
   myPosts: function(req, res) {
-    if (req.body.tagFilters) {
-      db.Post.find({ author: req.user.id }, req.body)
-        .then(dbModel => res.json(dbModel))
-        .catch(err => res.status(422).json(err));
-    } else {
-      db.Post.find({ author: req.user.id }, req.body)
-        .then(dbModel => res.json(dbModel))
-        .catch(err => res.status(422).json(err));
-    }
+    db.Post.find({ author: req.user.id }, req.body)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
   }
 };

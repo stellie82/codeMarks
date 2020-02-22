@@ -23,6 +23,7 @@ class App extends Component {
       mine: false
     },
     postPreviewData: [],
+    selectedTags: [],
     hidePageContent: false
   };
 
@@ -39,15 +40,22 @@ class App extends Component {
     });
   }
 
+  tagSelectionEvent = (tag) => {
+    this.setState((existingState) => ({
+      selectedTags: [...existingState.selectedTags, tag]
+    }));
+  }
+
   handleViewRecentPosts = async () => {
     fetch(keys.APP_DOMAIN+"/api/posts/recent", {
-      method: "GET",
+      method: "POST",
       credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Credentials": true
-      }
+      },
+      body: JSON.stringify(this.state.selectedTags.map(tag => tag._id))
     })
       .then(response => response.json())
       .then(data => this.setState({
@@ -63,13 +71,14 @@ class App extends Component {
 
   handleViewPopularPosts = async () => {
     fetch(keys.APP_DOMAIN+"/api/posts/popular", {
-      method: "GET",
+      method: "POST",
       credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Credentials": true
-      }
+      },
+      body: JSON.stringify(this.state.selectedTags.map(tag => tag._id))
     })
       .then(response => response.json())
       .then(data => this.setState({
@@ -85,12 +94,15 @@ class App extends Component {
 
   handleViewMyPosts = async () => {
     fetch(keys.APP_DOMAIN+"/api/posts/mine", {
-      method: "GET",
+      method: "POST",
       credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Credentials": true
+      },
+      body: {
+        tagFilters: JSON.stringify(this.state.selectedTags.map(tag => tag._id))
       }
     })
       .then(response => response.json())
@@ -195,7 +207,7 @@ class App extends Component {
                   user={this.state.user}
                 />
                 <div className={`pageContent ${this.state.hidePageContent ? 'hidden' : ''}`}>
-                  <TagManager />
+                  <TagManager selectedTags={this.state.selectedTags} tagSelectionEvent={this.tagSelectionEvent} />
                   {this.state.authenticated ? '' : <Hero user={this.state.user} /> }
                   <div className="cardBlock">{this.renderPreviewCards()}</div>
                 </div>
@@ -215,7 +227,7 @@ class App extends Component {
                   user={this.state.user}
                 />
                 <div className={`pageContent ${this.state.hidePageContent ? 'hidden' : ''}`}>
-                  <TagManager />
+                  <TagManager selectedTags={this.state.selectedTags} tagSelectionEvent={this.tagSelectionEvent} />
                   {this.state.authenticated ? '' : <Hero user={this.state.user} /> }
                   <div className="cardBlock">{this.renderPreviewCards()}</div>
                 </div>
@@ -235,7 +247,7 @@ class App extends Component {
                   user={this.state.user}
                 />
                 <div className={`pageContent ${this.state.hidePageContent ? 'hidden' : ''}`}>
-                  <TagManager />
+                  <TagManager selectedTags={this.state.selectedTags} tagSelectionEvent={this.tagSelectionEvent} />
                   {this.state.authenticated ? '' : <Hero user={this.state.user} /> }
                   <div className="cardBlock">{this.renderPreviewCards()}</div>
                 </div>

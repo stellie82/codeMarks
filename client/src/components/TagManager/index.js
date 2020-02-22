@@ -21,15 +21,23 @@ class TagManager extends Component {
     setTimeout(this.searchForTags, 200);
   };
 
+  renderSelectedTagsList() {
+    if (this.props.selectedTags) {
+      return this.props.selectedTags.map(tag => <Tag tagData={tag} key={tag._id} />);
+    } else {
+      return '';
+    }
+  }
+
   renderTagList() {
-    return this.state.tagData.map(tag => <Tag tagData={tag} key={tag._id} />);
+    return this.state.tagData.map(tag => <Tag tagSelectionEvent={this.props.tagSelectionEvent} tagData={tag} key={tag._id} />);
   }
 
   renderTagSearchResults() {
     if (!this.state.tagSearchResults || this.state.tagSearchResults.length === 0) {
       return (<span className="noSearchResults">No results</span>);
     } else {
-      return this.state.tagSearchResults.map(tag => <Tag tagData={tag} key={tag._id} />);
+      return this.state.tagSearchResults.map(tag => <Tag tagSelectionEvent={this.props.tagSelectionEvent} tagData={tag} key={tag._id} />);
     }
   }
 
@@ -74,7 +82,7 @@ class TagManager extends Component {
     return (
       <div className="tagManager">
         <span className="tagManagerHeader">Selected Tags</span>
-        <div className="filterTags"></div>
+        <div className="filterTags">{this.renderSelectedTagsList()}</div>
         <span className="tagManagerHeader">Tag Search</span>
         <div className="tagSearchContainer">
           <input
